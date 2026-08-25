@@ -1,0 +1,2750 @@
+<html lang="de"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fochina Orderman Export</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: #2c2c2c;
+            background: linear-gradient(135deg, #fafafa 0%, #f2f2f2 100%);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 1320px;
+            margin: 0 auto;
+        }
+
+        .subtitle-text {
+            margin-bottom: 8px;
+            color: #888;
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .header {
+            margin-bottom: 32px;
+            padding-bottom: 24px;
+            border-bottom: 2px solid #e5e5e5;
+        }
+
+        .header h1 {
+            margin-bottom: 8px;
+            color: #1a1a1a;
+            font-size: 38px;
+            font-weight: 300;
+            letter-spacing: -1px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 15px;
+        }
+
+        .upload-box {
+            display: block;
+            width: 100%;
+            margin-bottom: 24px;
+            padding: 48px 40px;
+            text-align: center;
+            cursor: pointer;
+            background: #fff;
+            border: 2px dashed #ddd;
+            border-radius: 14px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            transition: 0.2s ease;
+        }
+
+        .upload-box:hover,
+        .upload-box.dragover {
+            border-color: #b8860b;
+            background: #fffbf5;
+            box-shadow: 0 6px 18px rgba(184, 134, 11, 0.14);
+        }
+
+        .upload-box h2 {
+            margin-bottom: 8px;
+            color: #1a1a1a;
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .upload-box p {
+            color: #888;
+            font-size: 13px;
+        }
+
+        .filename {
+            margin-top: 10px;
+            color: #b8860b;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .helfer-control {
+            display: none;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+            padding: 14px 18px;
+            background: #fff;
+            border: 1px solid #e5e5e5;
+            border-radius: 10px;
+        }
+
+        .helfer-control label {
+            color: #1a1a1a;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .helfer-control select {
+            padding: 6px 10px;
+            color: #2c2c2c;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 13px;
+        }
+
+        .helfer-hint {
+            color: #999;
+            font-size: 12px;
+        }
+
+        .pdf-btn {
+            display: none;
+            margin-bottom: 24px;
+            padding: 12px 22px;
+            color: #fff;
+            background: #b8860b;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .pdf-btn:hover {
+            background: #9a7009;
+        }
+
+        #errorBox {
+            display: none;
+            margin-bottom: 24px;
+            padding: 14px 18px;
+            color: #a33;
+            background: #fff4f2;
+            border: 1px solid #f3c6bd;
+            border-radius: 10px;
+            font-size: 14px;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: 16px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            padding: 22px;
+            background: #fff;
+            border-left: 4px solid #b8860b;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        }
+
+        .card.good {
+            border-left-color: #287d3c;
+        }
+
+        .card.warn {
+            border-left-color: #a33;
+        }
+
+        .card h3 {
+            margin-bottom: 10px;
+            color: #999;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .card .value {
+            color: #1a1a1a;
+            font-size: 25px;
+            font-weight: 700;
+            line-height: 1.2;
+            word-break: break-word;
+        }
+
+        .card .sub {
+            margin-top: 6px;
+            color: #999;
+            font-size: 12px;
+            line-height: 1.35;
+        }
+
+        .card .sub.helfer {
+            color: #a33;
+            font-weight: 700;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+
+        .overview-panels {
+          display: flex;
+          flex-direction: column;
+          gap: 20px;
+          width: 100%;
+          grid-column: 1 / -1;
+        }
+
+        .panel {
+            padding: 24px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        }
+
+        .panel.full {
+            grid-column: 1 / -1;
+        }
+
+        .panel h2 {
+            margin-bottom: 14px;
+            color: #1a1a1a;
+            font-size: 16px;
+            font-weight: 800;
+            letter-spacing: -0.2px;
+        }
+
+        .hint {
+            margin-top: -6px;
+            margin-bottom: 14px;
+            color: #777;
+            font-size: 12px;
+            line-height: 1.45;
+        }
+
+        .sub-note {
+            margin-bottom: 10px;
+            color: #b8860b;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .info-list {
+            padding-left: 20px;
+            color: #555;
+            line-height: 1.8;
+            font-size: 14px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        table th {
+            padding: 8px 6px;
+            color: #999;
+            text-align: left;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            font-size: 11px;
+            border-bottom: 2px solid #eee;
+        }
+
+        table td {
+            padding: 10px 6px;
+            vertical-align: top;
+            border-bottom: 1px solid #f2f2f2;
+        }
+
+        table th:last-child,
+        table td:last-child {
+            text-align: right;
+        }
+
+        table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .rank {
+            width: 28px;
+            color: #b8860b;
+            font-weight: 800;
+        }
+
+        .muted {
+            color: #999;
+            font-size: 12px;
+        }
+
+        .negative {
+            color: #a33;
+        }
+
+        .positive {
+            color: #287d3c;
+        }
+
+        .kellner-helfer-divider td {
+            padding: 10px 6px 4px;
+            color: #b8860b;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            border-top: 2px solid #eee;
+            border-bottom: none;
+        }
+
+        .fixed-legend {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 14px;
+        }
+
+        .fixed-legend .row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            font-size: 13px;
+        }
+
+        .fixed-legend .label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #444;
+        }
+
+        .fixed-legend .dot {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .fixed-legend .amount {
+            color: #1a1a1a;
+            font-weight: 800;
+        }
+
+        .fixed-legend .pct {
+            margin-left: 6px;
+            color: #999;
+            font-size: 12px;
+        }
+
+        .panel canvas {
+            display: block;
+            width: 100% !important;
+        }
+
+        #stationChart {
+            max-height: 320px;
+        }
+
+        #topArtikelChart {
+            height: 460px;
+            max-height: 500px;
+        }
+
+        @media (max-width: 900px) {
+            body {
+                padding: 24px 12px;
+            }
+
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+
+            .overview-panels {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 28px;
+            }
+
+            table {
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="subtitle-text">Fochina Orderman v1.0</div>
+
+    <div class="header">
+        <h1 id="dashTitle">Feuerwehrfest mit Fahrzeugeinweihung</h1>
+        <p id="dashSubtitle">06.06.2026, 16:33 – 07.06.2026, 16:50 Uhr</p>
+    </div>
+
+    <label class="upload-box" id="dropZone">
+        <h2>Excel-Datei auswählen oder hier ablegen</h2>
+        <p>.xlsx oder .xls mit Gesamtübersicht, Produktübersicht, Kellner und Produktübersicht nach Kellner</p>
+        <div class="filename" id="filename">Feuerwehrfest mit Fahrzeugeinweihung.xlsx</div>
+        <input type="file" id="excelFile" accept=".xlsx,.xls" hidden="">
+    </label>
+
+    <div id="errorBox" style="display: none;"></div>
+
+    <div id="helferControl" class="helfer-control" style="display: flex;">
+        <label for="helferSelect">Helfer-Kellner:</label>
+        <select id="helferSelect"><option value="">Kein Helfer</option><option value="Alexandra">Alexandra</option><option value="Annalena">Annalena</option><option value="HELFER" selected="">HELFER</option><option value="Hons">Hons</option><option value="Jola">Jola</option><option value="Leonie">Leonie</option><option value="Magdalena">Magdalena</option><option value="Marie">Marie</option><option value="Thomas">Thomas</option></select>
+        <span class="helfer-hint">Legt fest, welcher Kellner-Eintrag als "Helfer" (statt Gast) gezählt wird.</span>
+    </div>
+
+    <button id="pdfBtn" class="pdf-btn" style="display: inline-block;">Als PDF herunterladen</button>
+
+    <div class="cards" id="summaryCards">
+        <div class="card good">
+            <h3>Umsatz Gesamt</h3>
+            <div id="umsatzGesamt" class="value">6.430,00 €</div>
+            <div id="kostenGesamtHelfer" class="sub helfer">Helferkosten: 3.219,50 €</div>
+        </div>
+        <div class="card" id="bestsellerCard">
+            <h3>Bestseller</h3>
+            <div id="bestseller" class="value">Bier</div>
+            <div id="bestsellerSub" class="sub">338x · 1.183,00 €</div>
+        </div>
+    </div>
+
+    <div class="dashboard">
+        <div class="panel">
+            <h2>Umsatz nach Station</h2>
+            <canvas id="stationChart" width="602" height="320" style="display: block; box-sizing: border-box; height: 320px; width: 602px;"></canvas>
+            <div id="stationLegend" class="fixed-legend">
+            <div class="row">
+                <span class="label"><span class="dot" style="background:#b8860b"></span>Getränke</span>
+                <span><span class="amount">3.657,00 €</span><span class="pct">56.9%</span></span>
+            </div>
+        
+            <div class="row">
+                <span class="label"><span class="dot" style="background:#d4a843"></span>Speisen</span>
+                <span><span class="amount">2.773,00 €</span><span class="pct">43.1%</span></span>
+            </div>
+        </div>
+        </div>
+        <div class="panel">
+            <h2>Top 10 Artikel nach Umsatz</h2>
+            <canvas id="topArtikelChart" width="602" height="301" style="display: block; box-sizing: border-box; height: 301px; width: 602px;"></canvas>
+        </div>
+        <div class="panel full">
+            <h2>Stoßzeiten</h2>
+            <div id="stosszeitNote" class="sub-note">Stoßzeit: 11:00 Uhr · 985,00 €</div>
+            <canvas id="zeitChart" width="1272" height="636" style="display: block; box-sizing: border-box; height: 636px; width: 1272px;"></canvas>
+        </div>
+        <div class="panel full">
+            <h2>Kellnerumsätze</h2>
+            <table id="kellnerTable">
+        <thead>
+            <tr>
+                <th>Kellner</th>
+                <th>Bestellungen</th>
+                <th>Einnahmen</th>
+                <th>Auszahlungen</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+        <tr>
+            <td>Annalena</td>
+            <td>146</td>
+            <td>2.621,00 €</td>
+            <td class="negative">-1.255,50 €</td>
+            <td><strong>1.365,50 €</strong></td>
+        </tr>
+    
+        <tr>
+            <td>Jola</td>
+            <td>152</td>
+            <td>1.719,50 €</td>
+            <td class="negative">-489,00 €</td>
+            <td><strong>1.230,50 €</strong></td>
+        </tr>
+    
+        <tr>
+            <td>Hons</td>
+            <td>108</td>
+            <td>1.463,00 €</td>
+            <td class="negative">-421,50 €</td>
+            <td><strong>1.041,50 €</strong></td>
+        </tr>
+    
+        <tr>
+            <td>Thomas</td>
+            <td>114</td>
+            <td>1.280,50 €</td>
+            <td class="negative">-433,50 €</td>
+            <td><strong>847,00 €</strong></td>
+        </tr>
+    
+        <tr>
+            <td>Marie</td>
+            <td>89</td>
+            <td>1.257,50 €</td>
+            <td class="negative">-440,00 €</td>
+            <td><strong>817,50 €</strong></td>
+        </tr>
+    
+        <tr>
+            <td>Magdalena</td>
+            <td>64</td>
+            <td>606,00 €</td>
+            <td class="negative">-31,00 €</td>
+            <td><strong>575,00 €</strong></td>
+        </tr>
+    
+        <tr>
+            <td>Leonie</td>
+            <td>70</td>
+            <td>736,00 €</td>
+            <td class="negative">-258,00 €</td>
+            <td><strong>478,00 €</strong></td>
+        </tr>
+    
+        <tr>
+            <td>Alexandra</td>
+            <td>13</td>
+            <td>89,50 €</td>
+            <td class="negative">-14,50 €</td>
+            <td><strong>75,00 €</strong></td>
+        </tr>
+    
+            
+                <tr class="kellner-helfer-divider">
+                    <td colspan="5">Helfer</td>
+                </tr>
+                
+        <tr>
+            <td>HELFER</td>
+            <td>140</td>
+            <td>3.219,50 €</td>
+            <td class="negative">0,00 €</td>
+            <td><strong>3.219,50 €</strong></td>
+        </tr>
+    
+            
+        </tbody>
+    </table>
+        </div>
+        <div class="overview-panels" id="overviewPanels"><div class="panel full"><h2>Getränke</h2><table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Artikel</th>
+                    <th>Verbrauch</th>
+                    <th>Umsatz</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                    <tr>
+                        <td class="rank">1</td>
+                        <td>Bier<div class="muted">Bier - Bier</div></td>
+                        <td>338</td>
+                        <td><strong>1.025,50 €</strong></td>
+                    </tr>
+                
+                    <tr>
+                        <td class="rank">2</td>
+                        <td>Radler<div class="muted">Bier - Radler</div></td>
+                        <td>189</td>
+                        <td><strong>567,00 €</strong></td>
+                    </tr>
+                
+                    <tr>
+                        <td class="rank">3</td>
+                        <td>Coca Cola<div class="muted">Säfte - Cola</div></td>
+                        <td>177</td>
+                        <td><strong>469,00 €</strong></td>
+                    </tr>
+                
+                    <tr>
+                        <td class="rank">4</td>
+                        <td>Hefe Cola<div class="muted">Hefe - Hefe Cola</div></td>
+                        <td>84</td>
+                        <td><strong>252,00 €</strong></td>
+                    </tr>
+                
+                    <tr>
+                        <td class="rank">5</td>
+                        <td>Hugo<div class="muted">alk. Getränke - Hugo</div></td>
+                        <td>63</td>
+                        <td><strong>210,00 €</strong></td>
+                    </tr>
+                
+                    <tr>
+                        <td class="rank">6</td>
+                        <td>Wasser mit Gas<div class="muted">Wasser - Wasser mit Gas</div></td>
+                        <td>91</td>
+                        <td><strong>192,50 €</strong></td>
+                    </tr>
+                
+                    <tr>
+                        <td class="rank">7</td>
+                        <td>Hefe Limo<div class="muted">Hefe - Hefe Limo</div></td>
+                        <td>60</td>
+                        <td><strong>178,50 €</strong></td>
+                    </tr>
+                
+                    <tr>
+                        <td class="rank">8</td>
+                        <td>Schnaps INGWER-LIMETTE<div class="muted">Schnaps INGWER-LIMETTE</div></td>
+                        <td>55</td>
+                        <td><strong>165,00 €</strong></td>
+                    </tr>
+                
+                    <tr>
+                        <td class="rank">9</td>
+                        <td>Calypso<div class="muted">Säfte - Calypso</div></td>
+                        <td>61</td>
+                        <td><strong>137,50 €</strong></td>
+                    </tr>
+                
+                    <tr>
+                        <td class="rank">10</td>
+                        <td>Wasser ohne Gas<div class="muted">Wasser - Wasser ohne Gas</div></td>
+                        <td>55</td>
+                        <td><strong>110,00 €</strong></td>
+                    </tr>
+                
+                    <tr>
+                        <td class="rank">11</td>
+                        <td>Spezi<div class="muted">Säfte - Spezi</div></td>
+                        <td>36</td>
+                        <td><strong>101,50 €</strong></td>
+                    </tr>
+                
+                    <tr>
+                        <td class="rank">12</td>
+                        <td>Bier alkoholfrei<div class="muted">Bier - Bier alkoholfrei</div></td>
+                        <td>23</td>
+                        <td><strong>63,00 €</strong></td>
+                    </tr>
+                
+                    <tr>
+                        <td class="rank">13</td>
+                        <td>Apfelsaft<div class="muted">Säfte - Apfelsaft</div></td>
+                        <td>33</td>
+                        <td><strong>60,00 €</strong></td>
+                    </tr>
+                
+                    <tr>
+                        <td class="rank">14</td>
+                        <td>Hefe<div class="muted">Hefe - Hefe</div></td>
+                        <td>26</td>
+                        <td><strong>59,50 €</strong></td>
+                    </tr>
+                
+                    <tr>
+                        <td class="rank">15</td>
+                        <td>Vodka Skiwasser<div class="muted">alk. Getränke - Vodka Skiwasser</div></td>
+                        <td>12</td>
+                        <td><strong>48,00 €</strong></td>
+                    </tr>
+                
+                    <tr>
+                        <td class="rank">16</td>
+                        <td>Bier Cola<div class="muted">Bier - Bier Cola</div></td>
+                        <td>2</td>
+                        <td><strong>7,00 €</strong></td>
+                    </tr>
+                
+                    <tr>
+                        <td class="rank">17</td>
+                        <td>Schnaps ZIRMILA<div class="muted">Schnaps ZIRMILA</div></td>
+                        <td>2</td>
+                        <td><strong>6,00 €</strong></td>
+                    </tr>
+                
+                    <tr>
+                        <td class="rank">18</td>
+                        <td>Aranciata<div class="muted">Säfte - Aranciata</div></td>
+                        <td>2</td>
+                        <td><strong>5,00 €</strong></td>
+                    </tr>
+                
+                    <tr>
+                        <td class="rank">19</td>
+                        <td>Radler sauer<div class="muted">Bier - Bier sauer</div></td>
+                        <td>1</td>
+                        <td><strong>0,00 €</strong></td>
+                    </tr>
+                
+            </tbody>
+        </table></div><div class="panel full"><h2>Speisen</h2><table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Artikel</th>
+                    <th>Verbrauch</th>
+                    <th>Umsatz</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                    <tr>
+                        <td class="rank">1</td>
+                        <td>Currywurst mit Brot<div class="muted">Speisen - Currywurst mit Brot</div></td>
+                        <td>120</td>
+                        <td><strong>476,00 €</strong></td>
+                    </tr>
+                
+                    <tr>
+                        <td class="rank">2</td>
+                        <td>Pressknödel<div class="muted">Speisen - Pressknödel mit Kraut</div></td>
+                        <td>126</td>
+                        <td><strong>448,00 €</strong></td>
+                    </tr>
+                
+                    <tr>
+                        <td class="rank">3</td>
+                        <td>Bratwurst mit Brot<div class="muted">Speisen - Bratwurst mit Brot</div></td>
+                        <td>91</td>
+                        <td><strong>442,00 €</strong></td>
+                    </tr>
+                
+                    <tr>
+                        <td class="rank">4</td>
+                        <td>Pommes<div class="muted">Speisen - Pommes</div></td>
+                        <td>199</td>
+                        <td><strong>402,00 €</strong></td>
+                    </tr>
+                
+                    <tr>
+                        <td class="rank">5</td>
+                        <td>Hirtenmaccheroni<div class="muted">Speisen - Hirtenmaccheroni</div></td>
+                        <td>117</td>
+                        <td><strong>384,00 €</strong></td>
+                    </tr>
+                
+                    <tr>
+                        <td class="rank">6</td>
+                        <td>Schnitzel mit Pommes<div class="muted">Speisen - Schnitzel mit Pommes</div></td>
+                        <td>92</td>
+                        <td><strong>351,00 €</strong></td>
+                    </tr>
+                
+                    <tr>
+                        <td class="rank">7</td>
+                        <td>Schnitzel mit Kartoffe<div class="muted">Speisen - Schnitzel mit Kartoffelsalat</div></td>
+                        <td>60</td>
+                        <td><strong>270,00 €</strong></td>
+                    </tr>
+                
+            </tbody>
+        </table></div></div>
+        <div class="panel full">
+            <h2>Sonderwünsche</h2>
+            <table id="sonderwuenscheTable">
+        <thead>
+            <tr>
+                <th>Sonderwunsch</th>
+                <th>Anzahl</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+                <tr>
+                    <td>Ohne brot</td>
+                    <td>7x</td>
+                </tr>
+            
+                <tr>
+                    <td>zum Mitnehmen</td>
+                    <td>6x</td>
+                </tr>
+            
+                <tr>
+                    <td>Für luk</td>
+                    <td>4x</td>
+                </tr>
+            
+                <tr>
+                    <td>Mit Kartoffelsalat</td>
+                    <td>4x</td>
+                </tr>
+            
+                <tr>
+                    <td>Für Manuel</td>
+                    <td>3x</td>
+                </tr>
+            
+                <tr>
+                    <td>Ohne brot achtung GLUT</td>
+                    <td>3x</td>
+                </tr>
+            
+                <tr>
+                    <td>Currywurst mit Brot</td>
+                    <td>2x</td>
+                </tr>
+            
+                <tr>
+                    <td>ohne Eis</td>
+                    <td>2x</td>
+                </tr>
+            
+                <tr>
+                    <td>Pommes</td>
+                    <td>2x</td>
+                </tr>
+            
+                <tr>
+                    <td>Schnitzel mit Pommes</td>
+                    <td>2x</td>
+                </tr>
+            
+                <tr>
+                    <td>2xbecher</td>
+                    <td>1x</td>
+                </tr>
+            
+                <tr>
+                    <td>Bei zwei viel Cola</td>
+                    <td>1x</td>
+                </tr>
+            
+                <tr>
+                    <td>Bratwurst mit Brot</td>
+                    <td>1x</td>
+                </tr>
+            
+                <tr>
+                    <td>Coca Cola</td>
+                    <td>1x</td>
+                </tr>
+            
+                <tr>
+                    <td>Für Felix</td>
+                    <td>1x</td>
+                </tr>
+            
+                <tr>
+                    <td>für Leo</td>
+                    <td>1x</td>
+                </tr>
+            
+                <tr>
+                    <td>Hefe Cola</td>
+                    <td>1x</td>
+                </tr>
+            
+                <tr>
+                    <td>Hefe Limo</td>
+                    <td>1x</td>
+                </tr>
+            
+                <tr>
+                    <td>Hirtenmaccheroni</td>
+                    <td>1x</td>
+                </tr>
+            
+                <tr>
+                    <td>Klein</td>
+                    <td>1x</td>
+                </tr>
+            
+                <tr>
+                    <td>Nur Kartoffelsalat</td>
+                    <td>1x</td>
+                </tr>
+            
+                <tr>
+                    <td>Nur Kartoffelsalat keine Pommes</td>
+                    <td>1x</td>
+                </tr>
+            
+                <tr>
+                    <td>Ohne brot achtung GLUTENFREI!!!</td>
+                    <td>1x</td>
+                </tr>
+            
+                <tr>
+                    <td>Ohne Kartoffelsalat mit Brot</td>
+                    <td>1x</td>
+                </tr>
+            
+                <tr>
+                    <td>Radler</td>
+                    <td>1x</td>
+                </tr>
+            
+                <tr>
+                    <td>Viel Limo</td>
+                    <td>1x</td>
+                </tr>
+            
+                <tr>
+                    <td>Wasser mit Gas</td>
+                    <td>1x</td>
+                </tr>
+            
+        </tbody>
+    </table>
+        </div>
+        <div class="panel full">
+            <h2>Preisliste</h2>
+            <table id="preisTable">
+        <thead>
+            <tr>
+                <th>Artikel</th>
+                <th>Station</th>
+                <th>Preis</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+                <tr>
+                    <td>Vodka Skiwasser<div class="muted">alk. Getränke - Vodka Skiwasser</div></td>
+                    <td>Getränke</td>
+                    <td>4,00 €</td>
+                </tr>
+            
+                <tr>
+                    <td>Bier<div class="muted">Bier - Bier</div></td>
+                    <td>Getränke</td>
+                    <td>3,50 €</td>
+                </tr>
+            
+                <tr>
+                    <td>Radler<div class="muted">Bier - Radler</div></td>
+                    <td>Getränke</td>
+                    <td>3,50 €</td>
+                </tr>
+            
+                <tr>
+                    <td>Bier Cola<div class="muted">Bier - Bier Cola</div></td>
+                    <td>Getränke</td>
+                    <td>3,50 €</td>
+                </tr>
+            
+                <tr>
+                    <td>Radler sauer<div class="muted">Bier - Bier sauer</div></td>
+                    <td>Getränke</td>
+                    <td>3,50 €</td>
+                </tr>
+            
+                <tr>
+                    <td>Hefe<div class="muted">Hefe - Hefe</div></td>
+                    <td>Getränke</td>
+                    <td>3,50 €</td>
+                </tr>
+            
+                <tr>
+                    <td>Hefe Limo<div class="muted">Hefe - Hefe Limo</div></td>
+                    <td>Getränke</td>
+                    <td>3,50 €</td>
+                </tr>
+            
+                <tr>
+                    <td>Hefe Cola<div class="muted">Hefe - Hefe Cola</div></td>
+                    <td>Getränke</td>
+                    <td>3,50 €</td>
+                </tr>
+            
+                <tr>
+                    <td>Hugo<div class="muted">alk. Getränke - Hugo</div></td>
+                    <td>Getränke</td>
+                    <td>3,50 €</td>
+                </tr>
+            
+                <tr>
+                    <td>Coca Cola<div class="muted">Säfte - Cola</div></td>
+                    <td>Getränke</td>
+                    <td>3,50 €</td>
+                </tr>
+            
+                <tr>
+                    <td>Spezi<div class="muted">Säfte - Spezi</div></td>
+                    <td>Getränke</td>
+                    <td>3,50 €</td>
+                </tr>
+            
+                <tr>
+                    <td>Bier alkoholfrei<div class="muted">Bier - Bier alkoholfrei</div></td>
+                    <td>Getränke</td>
+                    <td>3,00 €</td>
+                </tr>
+            
+                <tr>
+                    <td>Schnaps ZIRMILA<div class="muted">Schnaps ZIRMILA</div></td>
+                    <td>Getränke</td>
+                    <td>3,00 €</td>
+                </tr>
+            
+                <tr>
+                    <td>Schnaps INGWER-LIMETTE<div class="muted">Schnaps INGWER-LIMETTE</div></td>
+                    <td>Getränke</td>
+                    <td>3,00 €</td>
+                </tr>
+            
+                <tr>
+                    <td>Calypso<div class="muted">Säfte - Calypso</div></td>
+                    <td>Getränke</td>
+                    <td>2,50 €</td>
+                </tr>
+            
+                <tr>
+                    <td>Aranciata<div class="muted">Säfte - Aranciata</div></td>
+                    <td>Getränke</td>
+                    <td>2,50 €</td>
+                </tr>
+            
+                <tr>
+                    <td>Apfelsaft<div class="muted">Säfte - Apfelsaft</div></td>
+                    <td>Getränke</td>
+                    <td>2,50 €</td>
+                </tr>
+            
+                <tr>
+                    <td>Wasser mit Gas<div class="muted">Wasser - Wasser mit Gas</div></td>
+                    <td>Getränke</td>
+                    <td>2,50 €</td>
+                </tr>
+            
+                <tr>
+                    <td>Wasser ohne Gas<div class="muted">Wasser - Wasser ohne Gas</div></td>
+                    <td>Getränke</td>
+                    <td>2,50 €</td>
+                </tr>
+            
+                <tr>
+                    <td>Schnitzel mit Kartoffe<div class="muted">Speisen - Schnitzel mit Kartoffelsalat</div></td>
+                    <td>Speisen</td>
+                    <td>9,00 €</td>
+                </tr>
+            
+                <tr>
+                    <td>Schnitzel mit Pommes<div class="muted">Speisen - Schnitzel mit Pommes</div></td>
+                    <td>Speisen</td>
+                    <td>9,00 €</td>
+                </tr>
+            
+                <tr>
+                    <td>Hirtenmaccheroni<div class="muted">Speisen - Hirtenmaccheroni</div></td>
+                    <td>Speisen</td>
+                    <td>8,00 €</td>
+                </tr>
+            
+                <tr>
+                    <td>Pressknödel<div class="muted">Speisen - Pressknödel mit Kraut</div></td>
+                    <td>Speisen</td>
+                    <td>8,00 €</td>
+                </tr>
+            
+                <tr>
+                    <td>Currywurst mit Brot<div class="muted">Speisen - Currywurst mit Brot</div></td>
+                    <td>Speisen</td>
+                    <td>7,00 €</td>
+                </tr>
+            
+                <tr>
+                    <td>Bratwurst mit Brot<div class="muted">Speisen - Bratwurst mit Brot</div></td>
+                    <td>Speisen</td>
+                    <td>6,50 €</td>
+                </tr>
+            
+                <tr>
+                    <td>Pommes<div class="muted">Speisen - Pommes</div></td>
+                    <td>Speisen</td>
+                    <td>3,00 €</td>
+                </tr>
+            
+        </tbody>
+    </table>
+        </div>
+    </div>
+</div>
+
+<script>
+/*
+    ============================================================================
+    FOCHINA ORDERMAN EXPORT - v3.2
+    ----------------------------------------------------------------------------
+    Finale Datenlogik:
+    - Helfer-Kellner wird per Dropdown ausgewählt (Name variiert je nach Export)
+    - Umsatz Gesamt: Produktübersicht nach Kellner ohne Helfer
+    - Helferkosten: Produktübersicht nach Kellner nur Helfer
+    - Stationskarten / Übersichtstabellen: Artikel mit Verbrauch Gesamt, Umsatz
+    - Kellnerumsätze: Kellner-Blatt
+    - Bestseller / Preisliste: Produktübersicht bzw. Gästeaggregation nach Artikel
+    - Stoßzeiten / Sonderwünsche: Gesamtübersicht
+    ============================================================================
+*/
+
+let stationChart;
+let topArtikelChart;
+let zeitChart;
+let currentFileBase = '';
+let lastStats = null;
+let lastParsedSheets = null;
+let helferName = '';
+const stationColors = ['#b8860b', '#d4a843', '#e8c874', '#c99a3d', '#a67c1e', '#7d5a10', '#f0d98b', '#8c6d2f'];
+
+const dropZone = document.getElementById('dropZone');
+const fileInput = document.getElementById('excelFile');
+const pdfBtn = document.getElementById('pdfBtn');
+const helferControl = document.getElementById('helferControl');
+const helferSelect = document.getElementById('helferSelect');
+
+helferSelect.addEventListener('change', () => {
+    helferName = helferSelect.value;
+    if (lastParsedSheets) recalcAndRender();
+});
+
+const valueLabelPlugin = {
+    id: 'valueLabel',
+    afterDatasetsDraw(chart) {
+        if (chart.config.type !== 'bar') return;
+
+        const { ctx } = chart;
+        chart.data.datasets.forEach((dataset, datasetIndex) => {
+            const meta = chart.getDatasetMeta(datasetIndex);
+
+            meta.data.forEach((bar, index) => {
+                ctx.save();
+                ctx.fillStyle = '#333';
+                ctx.font = '600 11px -apple-system, sans-serif';
+                ctx.textBaseline = 'middle';
+                ctx.textAlign = 'left';
+                ctx.fillText(fmtEUR(dataset.data[index]), bar.x + 6, bar.y);
+                ctx.restore();
+            });
+        });
+    }
+};
+Chart.register(valueLabelPlugin);
+
+pdfBtn.addEventListener('click', exportPDF);
+
+fileInput.addEventListener('change', event => {
+    if (event.target.files[0]) handleFile(event.target.files[0]);
+});
+
+['dragover', 'dragleave', 'drop'].forEach(eventName => {
+    dropZone.addEventListener(eventName, event => event.preventDefault());
+});
+
+dropZone.addEventListener('dragover', () => dropZone.classList.add('dragover'));
+dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+
+dropZone.addEventListener('drop', event => {
+    dropZone.classList.remove('dragover');
+    if (event.dataTransfer.files[0]) handleFile(event.dataTransfer.files[0]);
+});
+
+function handleFile(file) {
+    clearError();
+    resetDashboard();
+
+    document.getElementById('filename').textContent = file.name;
+    currentFileBase = file.name.replace(/\.[^/.]+$/, '');
+
+    const reader = new FileReader();
+    reader.onload = event => {
+        try {
+            const data = new Uint8Array(event.target.result);
+            const workbook = XLSX.read(data, {
+                type: 'array',
+                cellDates: true
+            });
+
+            const sheets = readRequiredSheets(workbook);
+            processWorkbookData(sheets);
+        } catch (error) {
+            console.error(error);
+            showError(error.message || 'Datei konnte nicht gelesen werden.');
+        }
+    };
+    reader.onerror = () => showError('Datei konnte nicht geladen werden.');
+    reader.readAsArrayBuffer(file);
+}
+
+function readRequiredSheets(workbook) {
+    return {
+        gesamt: sheetToRows(workbook, ['Gesamtübersicht', 'gesamt']),
+        produkt: sheetToRows(workbook, ['Produktübersicht', 'produktübersicht', 'produkt']),
+        kellner: sheetToRows(workbook, ['Kellner']),
+        produktNachKellner: sheetToRows(workbook, ['Produktübersicht nach Kellner', 'produktübersicht nach kellner'])
+    };
+}
+
+function sheetToRows(workbook, possibleNames) {
+    const sheetName = findSheetName(workbook, possibleNames);
+    if (!sheetName) {
+        throw new Error(`Tabellenblatt nicht gefunden: ${possibleNames[0]}`);
+    }
+
+    const sheet = workbook.Sheets[sheetName];
+    const rows = XLSX.utils.sheet_to_json(sheet, {
+        defval: null
+    });
+
+    return normalizeRows(rows);
+}
+
+function findSheetName(workbook, possibleNames) {
+    const normalizedNames = possibleNames.map(normalizeName);
+
+    return workbook.SheetNames.find(sheetName => {
+        const normalizedSheet = normalizeName(sheetName);
+        return normalizedNames.some(name => normalizedSheet.includes(name));
+    });
+}
+
+function normalizeRows(rows) {
+    return rows
+        .map(row => {
+            const keyMap = buildKeyMap(row);
+
+            return {
+                raw: row,
+                keyMap,
+                get(name) {
+                    const key = keyMap[normalizeName(name)];
+                    return key ? row[key] : null;
+                }
+            };
+        })
+        .filter(row => Object.values(row.raw).some(value => value !== null && value !== ''));
+}
+
+function processWorkbookData(sheets) {
+    const produktRows = parseProduktuebersicht(sheets.produkt);
+    const produktKellnerRows = parseProduktNachKellner(sheets.produktNachKellner);
+    const kellnerRows = parseKellner(sheets.kellner);
+    const gesamtRows = parseGesamtuebersicht(sheets.gesamt);
+
+    lastParsedSheets = { produktRows, produktKellnerRows, kellnerRows, gesamtRows };
+
+    populateHelferSelect(kellnerRows);
+    recalcAndRender();
+}
+
+function populateHelferSelect(kellnerRows) {
+
+    const names = Array.from(
+        new Set(
+            kellnerRows
+                .map(row => row.name)
+                .filter(Boolean)
+        )
+    ).sort((a, b) => a.localeCompare(b, 'de'));
+
+    // Alle "auf XYZ"-Konten sammeln
+    const konten = new Set();
+
+    kellnerRows.forEach(row => {
+        Object.keys(row.interneKonten || {}).forEach(konto => {
+            konten.add(normalizeName(konto));
+        });
+    });
+
+    // Zuerst versuchen einen Kellner zu finden,
+    // dessen Name einem internen Konto entspricht
+    let autoDetected =
+        names.find(name =>
+            konten.has(normalizeName(name))
+        );
+
+    // Fallback auf HELFER
+    if (!autoDetected) {
+        autoDetected = names.find(name =>
+            normalizeName(name).includes('helfer')
+        );
+    }
+
+    // Fallback auf MUSIK
+    if (!autoDetected) {
+        autoDetected = names.find(name =>
+            normalizeName(name).includes('musik')
+        );
+    }
+
+    helferName = autoDetected || '';
+
+    helferSelect.innerHTML =
+        '<option value="">Kein Helfer</option>' +
+        names.map(name =>
+            `<option value="${escapeHTML(name)}"
+                ${name === helferName ? 'selected' : ''}>
+                ${escapeHTML(name)}
+            </option>`
+        ).join('');
+
+    helferControl.style.display =
+        names.length ? 'flex' : 'none';
+
+    console.log('Erkannte Konten:', [...konten]);
+    console.log('Automatisch gewählt:', helferName);
+}
+
+function recalcAndRender() {
+    if (!lastParsedSheets) return;
+
+    const { produktRows, produktKellnerRows, kellnerRows, gesamtRows } = lastParsedSheets;
+
+    const articleCombinedRows = buildArticleCombinedRows(produktKellnerRows);
+    const stationData = buildStationDataFromCombined(articleCombinedRows);
+    const topArtikelByUmsatz = [...articleCombinedRows]
+        .filter(row => row.umsatz > 0)
+        .sort((a, b) => b.umsatz - a.umsatz);
+    const overviewGroups = buildOverviewGroupsFromCombined(articleCombinedRows);
+
+    const summary = buildSummary({
+        produktRows,
+        produktKellnerRows,
+        gesamtRows,
+        articleCombinedRows
+    });
+    summary.stationData = stationData;
+
+    const stosszeiten = buildStosszeiten(gesamtRows);
+    const sonderwuensche = buildSonderwuensche(gesamtRows);
+    const preisliste = buildPreisliste(produktRows);
+    const interneKonten = buildInterneKonten(kellnerRows);
+
+
+    updateHeader(gesamtRows);
+    updateCards(summary);
+    createStationChart(stationData);
+    createTopArtikelChart(topArtikelByUmsatz);
+    createZeitChart(stosszeiten);
+    createKellnerTable(kellnerRows);
+    createOverviewTables(overviewGroups);
+    createSonderwuenscheTable(sonderwuensche);
+    createPriceListTable(preisliste);
+
+    lastStats = {
+        title: currentFileBase || 'Orderman Export Auswertung',
+        subtitle: document.getElementById('dashSubtitle').textContent,
+        summary,
+        stationData,
+        topArtikelByUmsatz,
+        kellnerRows,
+        interneKonten,
+        overviewGroups,
+        stosszeiten,
+        sonderwuensche,
+        preisliste
+    };
+
+    pdfBtn.style.display = 'inline-block';
+}
+
+function buildSummary(data) {
+    const umsatzGesamt = sum(data.produktKellnerRows, row => isInternalAccount(row.kellner) ? 0 : row.total);
+    const helferKosten = sum(data.produktKellnerRows, row => isInternalAccount(row.kellner) ? row.total : 0);
+
+    const umsatzGetraenke = sum(data.produktKellnerRows, row => {
+        return !isInternalAccount(row.kellner) && isStation(row.station, 'Getränke') ? row.total : 0;
+    });
+
+    const umsatzSpeisen = sum(data.produktKellnerRows, row => {
+        return !isInternalAccount(row.kellner) && isStation(row.station, 'Speisen') ? row.total : 0;
+    });
+
+    const helferGetraenke = sum(data.produktKellnerRows, row => {
+        return isInternalAccount(row.kellner) && isStation(row.station, 'Getränke') ? row.total : 0;
+    });
+
+    const helferSpeisen = sum(data.produktKellnerRows, row => {
+        return isInternalAccount(row.kellner) && isStation(row.station, 'Speisen') ? row.total : 0;
+    });
+
+    const bestseller = [...data.produktRows]
+        .filter(row => !row.isZusatz && row.anzahl > 0)
+        .sort((a, b) => b.anzahl - a.anzahl || b.total - a.total)[0] || null;
+
+
+    return {
+        umsatzGesamt,
+        umsatzGetraenke,
+        umsatzSpeisen,
+        helferKosten,
+        helferGetraenke,
+        helferSpeisen,
+        bestseller
+    };
+}
+
+function buildArticleCombinedRows(produktKellnerRows) {
+    const map = new Map();
+
+    produktKellnerRows
+        .filter(row => !row.isZusatz)
+        .filter(row => row.anzahl !== 0 || row.total !== 0)
+        .forEach(row => {
+            const key = `${row.station}||${row.bonText}||${row.bezeichnung}`;
+
+            if (!map.has(key)) {
+                map.set(key, {
+                    station: row.station,
+                    bonText: row.bonText,
+                    bezeichnung: row.bezeichnung,
+                    verbrauchGaeste: 0,
+                    verbrauchHelfer: 0,
+                    umsatz: 0,
+                    kostenHelfer: 0
+                });
+            }
+
+            const entry = map.get(key);
+
+            if (isInternalAccount(row.kellner)) {
+                entry.verbrauchHelfer += row.anzahl;
+                entry.kostenHelfer += row.total;
+            } else {
+                entry.verbrauchGaeste += row.anzahl;
+                entry.umsatz += row.total;
+            }
+        });
+
+    return Array.from(map.values()).sort((a, b) => {
+        return b.umsatz - a.umsatz || b.kostenHelfer - a.kostenHelfer || b.verbrauchGaeste - a.verbrauchGaeste;
+    });
+}
+
+function buildStationDataFromCombined(rows) {
+    const stationMap = new Map();
+
+    rows.forEach(row => {
+        const data = stationMap.get(row.station) || { station: row.station, umsatz: 0, kostenHelfer: 0 };
+        data.umsatz += row.umsatz;
+        data.kostenHelfer += row.kostenHelfer;
+        stationMap.set(row.station, data);
+    });
+
+    return Array.from(stationMap.values()).sort((a, b) => b.umsatz - a.umsatz);
+}
+
+function buildOverviewGroupsFromCombined(rows) {
+    const groups = new Map();
+
+    rows.forEach(row => {
+        if (!groups.has(row.station)) groups.set(row.station, []);
+        groups.get(row.station).push(row);
+    });
+
+    return Array.from(groups.entries()).sort(([a], [b]) => {
+        return stationRank(a) - stationRank(b) || a.localeCompare(b, 'de');
+    });
+}
+
+function parseProduktuebersicht(rows) {
+    return rows
+        .map(row => {
+            const station = text(row.get('Station'));
+            const bezeichnung = text(row.get('Bezeichnung'));
+            const bonText = text(row.get('BonText')) || bezeichnung;
+            const anzahl = num(row.get('Anzahl'));
+            const total = num(row.get('Total'));
+            const verbrauchteMengen = num(row.get('Verbrauchte Mengen'));
+            const isZusatz = isZusatzRow(bezeichnung, total);
+
+            return {
+                station,
+                bezeichnung,
+                bonText,
+                anzahl,
+                total,
+                verbrauchteMengen,
+                isZusatz
+            };
+        })
+        .filter(row => row.station?.trim())
+        .filter(row => !isSummaryText(`${row.station} ${row.bonText} ${row.bezeichnung}`));
+}
+
+function parseProduktNachKellner(rows) {
+    return rows
+        .map(row => {
+            const kellner = text(row.get('Kellner'));
+            const station = text(row.get('Station'));
+            const bezeichnung = text(row.get('Bezeichnung'));
+            const bonText = text(row.get('BonText')) || bezeichnung;
+            const anzahl = num(row.get('Anzahl'));
+            const total = num(row.get('Total'));
+            const isZusatz = isZusatzRow(bezeichnung, total);
+
+            return {
+                kellner,
+                station,
+                bezeichnung,
+                bonText,
+                anzahl,
+                total,
+                isZusatz
+            };
+        })
+        .filter(row => row.kellner?.trim())
+        .filter(row => row.station?.trim())
+        .filter(row => !isSummaryText(`${row.kellner} ${row.station} ${row.bonText} ${row.bezeichnung}`));
+}
+
+function parseKellner(rows) {
+    return rows
+        .map(row => {
+            const name = text(row.get('Name')) || text(row.get('Kellner'));
+
+           const interneKonten = {};
+
+            Object.keys(row.raw).forEach(key => {
+                const normalized = normalizeName(key);
+
+                if (normalized.startsWith('auf ')) {
+                    const kontoName = key.replace(/^auf\s+/i, '');
+                    interneKonten[kontoName] = num(row.raw[key]);
+                }
+            });
+
+            return {
+                name,
+                bestellungen: num(row.get('Bestellungen')),
+                einnahmen: num(row.get('Einnahmen')),
+                auszahlungen: num(row.get('Auszahlungen')),
+                total: num(row.get('Total')),
+                interneKonten
+            };
+        })
+        .filter(row => row.name?.trim())
+        .filter(row => !isSummaryText(row.name));
+}
+
+function parseGesamtuebersicht(rows) {
+    return rows
+        .map(row => {
+            const station = text(row.get('Station'));
+            const bonText = text(row.get('BonText'));
+            const produkt = text(row.get('Produkt'));
+            const produktKommentar = text(row.get('Produktkommentar'));
+            const bestellKommentar = text(row.get('Bestellkommentar'));
+            const anzahl = num(row.get('Anzahl'));
+            const total = num(row.get('Total'));
+            const erstellt = parseGermanDate(row.get('erstellt'));
+            const storniert = num(row.get('storniert'));
+            const isZusatz = isZusatzRow(bonText, total);
+            const joinedComment = `${produktKommentar} ${bestellKommentar}`.trim();
+
+            return {
+                station,
+                bonText,
+                produkt,
+                produktKommentar,
+                bestellKommentar,
+                joinedComment,
+                anzahl,
+                total,
+                erstellt,
+                storniert,
+                isZusatz
+            };
+        })
+        .filter(row => row.bonText || row.produkt || row.station || row.total !== 0)
+        .filter(row => !isSummaryText(`${row.station} ${row.bonText} ${row.produkt}`));
+}
+
+function buildPreisliste(rows) {
+    return rows
+        .filter(row => !row.isZusatz)
+        .filter(row => row.anzahl > 0 && row.total > 0)
+        .map(row => ({
+            station: row.station,
+            artikel: row.bonText,
+            bezeichnung: row.bezeichnung,
+            preis: row.total / row.anzahl
+        }))
+        .sort((a, b) => a.station.localeCompare(b.station, 'de') || b.preis - a.preis);
+}
+
+function buildInterneKonten(kellnerRows) {
+    const kontoMap = new Map();
+
+    kellnerRows.forEach(row => {
+        Object.entries(row.interneKonten || {}).forEach(([konto, wert]) => {
+            kontoMap.set(
+                konto,
+                (kontoMap.get(konto) || 0) + wert
+            );
+        });
+    });
+
+    return Array.from(kontoMap.entries())
+        .map(([konto, wert]) => ({
+            konto,
+            wert
+        }))
+        .sort((a, b) => b.wert - a.wert);
+}
+
+function buildStosszeiten(rows) {
+    const map = new Map();
+
+    rows.forEach(row => {
+        if (!row.erstellt) return;
+        if (isStornoRow(row)) return;
+        if (isTransferComment(row.joinedComment)) return;
+
+        const bucket = new Date(
+            row.erstellt.getFullYear(),
+            row.erstellt.getMonth(),
+            row.erstellt.getDate(),
+            row.erstellt.getHours()
+        );
+        const key = bucket.getTime();
+
+        if (!map.has(key)) {
+            map.set(key, {
+                ts: key,
+                label: bucket.toLocaleTimeString('de-DE', {
+                    hour: '2-digit',
+                    minute: '2-digit'
+                }),
+                total: 0
+            });
+        }
+
+        map.get(key).total += row.total;
+    });
+
+    return Array.from(map.values()).sort((a, b) => a.ts - b.ts);
+}
+
+function buildSonderwuensche(rows) {
+    const map = new Map();
+
+    rows.forEach(row => {
+        const candidates = [
+            row.bestellKommentar,
+            row.produktKommentar,
+            row.isZusatz ? row.bonText : ''
+        ];
+
+        candidates.forEach(value => {
+            const cleaned = text(value);
+            if (!cleaned) return;
+            if (isTransferComment(cleaned)) return;
+            if (normalizeName(cleaned).includes('storno der bestellung')) return;
+
+            const normalizedKey = normalizeName(cleaned);
+            const existing = map.get(normalizedKey);
+
+            if (!existing) {
+                map.set(normalizedKey, {
+                    text: cleaned,
+                    count: 1
+                });
+            } else {
+                existing.count += 1;
+            }
+        });
+    });
+
+    return Array.from(map.values())
+        .sort((a, b) => b.count - a.count || a.text.localeCompare(b.text, 'de'));
+}
+
+function buildStornoAnalyse(rows) {
+    const map = new Map();
+    let totalCount = 0;
+    let totalValue = 0;
+
+    rows.forEach(row => {
+        if (!isStornoCountedRow(row)) return;
+
+        const key = row.bonText || row.produkt || 'Unbekannt';
+
+        if (!map.has(key)) {
+            map.set(key, {
+                artikel: key,
+                station: row.station,
+                anzahl: 0,
+                total: 0,
+                count: 0
+            });
+        }
+
+        const entry = map.get(key);
+        entry.anzahl += Math.abs(row.anzahl);
+        entry.total += Math.abs(row.total);
+        entry.count += 1;
+
+        totalCount += 1;
+        totalValue += Math.abs(row.total);
+    });
+
+    return {
+        totalCount,
+        totalValue,
+        rows: Array.from(map.values()).sort((a, b) => b.total - a.total || b.anzahl - a.anzahl)
+    };
+}
+
+function updateHeader(gesamtRows) {
+    document.getElementById('dashTitle').textContent = currentFileBase || 'Orderman Export Auswertung';
+
+    const dates = gesamtRows
+        .map(row => row.erstellt)
+        .filter(Boolean)
+        .sort((a, b) => a - b);
+
+    if (!dates.length) {
+        document.getElementById('dashSubtitle').textContent = 'Excel-Export ausgewertet';
+        return;
+    }
+
+    const minDate = dates[0];
+    const maxDate = dates[dates.length - 1];
+    const sameDay = minDate.toDateString() === maxDate.toDateString();
+
+    const dateFormat = {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric'
+    };
+    const timeFormat = {
+        hour: '2-digit',
+        minute: '2-digit'
+    };
+    const subtitle = sameDay
+        ? `${minDate.toLocaleDateString('de-DE', dateFormat)} · ${minDate.toLocaleTimeString('de-DE', timeFormat)} – ${maxDate.toLocaleTimeString('de-DE', timeFormat)} Uhr`
+        : `${minDate.toLocaleString('de-DE', { ...dateFormat, ...timeFormat })} – ${maxDate.toLocaleString('de-DE', { ...dateFormat, ...timeFormat })} Uhr`;
+
+    document.getElementById('dashSubtitle').textContent = subtitle;
+}
+
+function updateCards(summary) {
+    document.getElementById('umsatzGesamt').textContent = fmtEUR(summary.umsatzGesamt);
+    document.getElementById('kostenGesamtHelfer').textContent = `Helferkosten: ${fmtEUR(summary.helferKosten)}`;
+
+    const summaryCards = document.getElementById('summaryCards');
+    const bestsellerCard = document.getElementById('bestsellerCard');
+    summaryCards.querySelectorAll('.station-card').forEach(card => card.remove());
+
+    if (summary.stationData && summary.stationData.length) {
+        summary.stationData.forEach(stationRow => {
+            const card = document.createElement('div');
+            card.className = 'card station-card';
+            card.innerHTML = `
+                <h3>Umsatz ${escapeHTML(stationRow.station)}</h3>
+                <div class="value">${fmtEUR(stationRow.umsatz)}</div>
+                <div class="sub helfer">Helferkosten: ${fmtEUR(stationRow.kostenHelfer)}</div>
+            `;
+            summaryCards.insertBefore(card, bestsellerCard);
+        });
+    }
+
+    if (summary.bestseller) {
+        document.getElementById('bestseller').textContent = summary.bestseller.bonText;
+        document.getElementById('bestsellerSub').textContent = `${fmtNumber(summary.bestseller.anzahl)}x · ${fmtEUR(summary.bestseller.total)}`;
+    } else {
+        document.getElementById('bestseller').textContent = '–';
+        document.getElementById('bestsellerSub').textContent = '';
+    }
+}
+
+function createStationChart(stationData) {
+    if (stationChart) stationChart.destroy();
+
+    const labels = stationData.map(row => row.station);
+    const values = stationData.map(row => row.umsatz);
+    const total = values.reduce((sum, value) => sum + value, 0);
+
+    stationChart = new Chart(document.getElementById('stationChart'), {
+        type: 'doughnut',
+        data: {
+            labels,
+            datasets: [{
+                data: values,
+                backgroundColor: labels.map((_, index) => stationColors[index % stationColors.length])
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: false
+                }
+            }
+        }
+    });
+
+    document.getElementById('stationLegend').innerHTML = labels.map((label, index) => {
+        const percentage = total ? (values[index] / total * 100).toFixed(1) : '0.0';
+        const color = stationColors[index % stationColors.length];
+
+        return `
+            <div class="row">
+                <span class="label"><span class="dot" style="background:${color}"></span>${escapeHTML(label)}</span>
+                <span><span class="amount">${fmtEUR(values[index])}</span><span class="pct">${percentage}%</span></span>
+            </div>
+        `;
+    }).join('');
+}
+
+function createTopArtikelChart(rows) {
+    if (topArtikelChart) topArtikelChart.destroy();
+
+    const top10 = rows.slice(0, 10);
+    const maxValue = Math.max(...top10.map(row => row.umsatz), 0);
+
+    topArtikelChart = new Chart(document.getElementById('topArtikelChart'), {
+        type: 'bar',
+        data: {
+            labels: top10.map(row => row.bonText),
+            datasets: [{
+                label: 'Umsatz Gesamt €',
+                data: top10.map(row => row.umsatz),
+                backgroundColor: '#b8860b',
+                borderRadius: 6,
+                borderSkipped: false
+            }]
+        },
+        options: {
+            indexAxis: 'y',
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: false
+                }
+            },
+            layout: {
+                padding: {
+                    right: 60
+                }
+            },
+            scales: {
+                x: {
+                    beginAtZero: true,
+                    suggestedMax: maxValue * 1.25
+                },
+                y: {
+                    grid: {
+                        display: false
+                    }
+                }
+            }
+        }
+    });
+}
+
+function createZeitChart(rows) {
+    if (zeitChart) zeitChart.destroy();
+
+    let peakIndex = 0;
+    rows.forEach((row, index) => {
+        if (row.total > rows[peakIndex]?.total) peakIndex = index;
+    });
+
+    if (rows.length) {
+        document.getElementById('stosszeitNote').textContent = `Stoßzeit: ${rows[peakIndex].label} Uhr · ${fmtEUR(rows[peakIndex].total)}`;
+    } else {
+        document.getElementById('stosszeitNote').textContent = '';
+    }
+
+    zeitChart = new Chart(document.getElementById('zeitChart'), {
+        type: 'line',
+        data: {
+            labels: rows.map(row => row.label),
+            datasets: [{
+                label: 'Umsatz €',
+                data: rows.map(row => row.total),
+                borderColor: '#b8860b',
+                backgroundColor: 'rgba(184, 134, 11, 0.12)',
+                fill: true,
+                tension: 0.3,
+                pointRadius: rows.map((_, index) => index === peakIndex ? 6 : 3),
+                pointBackgroundColor: rows.map((_, index) => index === peakIndex ? '#a33' : '#b8860b')
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: false
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true
+                },
+                x: {
+                    grid: {
+                        display: false
+                    }
+                }
+            }
+        }
+    });
+}
+
+function createKellnerTable(rows) {
+    const gaesteRows = rows.filter(row => !isInternalAccount(row.name));
+    const helferRows = rows.filter(row => isInternalAccount(row.name));
+
+    const sorted = [...gaesteRows].sort((a, b) => b.total - a.total);
+    const sortedHelfer = [...helferRows].sort((a, b) => b.total - a.total);
+
+    const rowHTML = row => `
+        <tr>
+            <td>${escapeHTML(row.name)}</td>
+            <td>${fmtNumber(row.bestellungen)}</td>
+            <td>${fmtEUR(row.einnahmen)}</td>
+            <td class="negative">${fmtEUR(row.auszahlungen)}</td>
+            <td><strong>${fmtEUR(row.total)}</strong></td>
+        </tr>
+    `;
+
+    document.getElementById('kellnerTable').innerHTML = `
+        <thead>
+            <tr>
+                <th>Kellner</th>
+                <th>Bestellungen</th>
+                <th>Einnahmen</th>
+                <th>EIngelöste Gutscheíne</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            ${sorted.map(rowHTML).join('')}
+            ${sortedHelfer.length ? `
+                <tr class="kellner-helfer-divider">
+                    <td colspan="5">Helfer</td>
+                </tr>
+                ${sortedHelfer.map(rowHTML).join('')}
+            ` : ''}
+        </tbody>
+    `;
+}
+
+function createOverviewTables(groups) {
+    const container = document.getElementById('overviewPanels');
+    container.innerHTML = '';
+
+    groups.forEach(([groupName, rows]) => {
+        const panel = document.createElement('div');
+        panel.className = 'panel full';
+        panel.innerHTML = `<h2>${escapeHTML(groupName)}</h2>`;
+
+        const table = document.createElement('table');
+        table.innerHTML = `
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Artikel</th>
+                    <th>Verbrauch</th>
+                    <th>Umsatz</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${rows.map((row, index) => `
+                    <tr>
+                        <td class="rank">${index + 1}</td>
+                        <td>${escapeHTML(row.bonText)}<div class="muted">${escapeHTML(row.bezeichnung)}</div></td>
+                        <td>${fmtNumber(row.verbrauchGaeste + row.verbrauchHelfer)}</td>
+                        <td><strong>${fmtEUR(row.umsatz)}</strong></td>
+                    </tr>
+                `).join('')}
+            </tbody>
+        `;
+
+        panel.appendChild(table);
+        container.appendChild(panel);
+    });
+}
+
+function createSonderwuenscheTable(rows) {
+    const panel = document.getElementById('sonderwuenscheTable').closest('.panel');
+
+    if (!rows.length) {
+        panel.style.display = 'none';
+        return;
+    }
+
+    panel.style.display = '';
+    document.getElementById('sonderwuenscheTable').innerHTML = `
+        <thead>
+            <tr>
+                <th>Sonderwunsch</th>
+                <th>Anzahl</th>
+            </tr>
+        </thead>
+        <tbody>
+            ${rows.map(row => `
+                <tr>
+                    <td>${escapeHTML(row.text)}</td>
+                    <td>${fmtNumber(row.count)}x</td>
+                </tr>
+            `).join('')}
+        </tbody>
+    `;
+}
+
+function createPriceListTable(rows) {
+    document.getElementById('preisTable').innerHTML = `
+        <thead>
+            <tr>
+                <th>Artikel</th>
+                <th>Station</th>
+                <th>Preis</th>
+            </tr>
+        </thead>
+        <tbody>
+            ${rows.map(row => `
+                <tr>
+                    <td>${escapeHTML(row.artikel)}<div class="muted">${escapeHTML(row.bezeichnung)}</div></td>
+                    <td>${escapeHTML(row.station)}</td>
+                    <td>${fmtEUR(row.preis)}</td>
+                </tr>
+            `).join('')}
+        </tbody>
+    `;
+}
+
+function exportPDF() {
+    if (!lastStats) {
+        showError('Es gibt noch keine Auswertung zum Exportieren. Bitte zuerst eine Datei laden.');
+        return;
+    }
+
+    try {
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        const pageWidth = pdf.internal.pageSize.getWidth();
+        const pageHeight = pdf.internal.pageSize.getHeight();
+
+        // Seite 1: Kompakte Management-Übersicht
+        addPdfExecutivePage(pdf, lastStats, pageWidth, pageHeight);
+
+        // Seite 2: Zeit-, Helfer- und Kellneranalyse
+        pdf.addPage();
+        addPdfAnalysisPage(pdf, lastStats, pageWidth, pageHeight);
+
+        // Ab Seite 3 folgen nur noch die Detailtabellen.
+        lastStats.overviewGroups.forEach(([groupName, rows]) => {
+            addPdfTablePage(
+                pdf,
+                groupName,
+                ['#', 'Artikel', 'Verbrauch', 'Umsatz'],
+                rows.map((row, index) => [
+                    index + 1,
+                    row.bonText,
+                    fmtNumber(row.verbrauchGaeste + row.verbrauchHelfer),
+                    fmtEUR(row.umsatz)
+                ]),
+                {
+                    0: { halign: 'center', cellWidth: 12 },
+                    2: { halign: 'right', cellWidth: 28 },
+                    3: { halign: 'right', cellWidth: 34 }
+                }
+            );
+        });
+
+        const gaesteKellner = lastStats.kellnerRows
+            .filter(row => !isInternalAccount(row.name))
+            .sort((a, b) => b.total - a.total);
+        const helferKellner = lastStats.kellnerRows
+            .filter(row => isInternalAccount(row.name))
+            .sort((a, b) => b.total - a.total);
+        const kellnerPdfRows = [
+            ...gaesteKellner.map(row => [
+                row.name,
+                fmtNumber(row.bestellungen),
+                fmtEUR(row.einnahmen),
+                fmtEUR(row.auszahlungen),
+                fmtEUR(row.total)
+            ]),
+            ...helferKellner.map(row => [
+                `${row.name} (Helfer)`,
+                fmtNumber(row.bestellungen),
+                fmtEUR(row.einnahmen),
+                fmtEUR(row.auszahlungen),
+                fmtEUR(row.total)
+            ])
+        ];
+
+        addPdfTablePage(
+            pdf,
+            'Kellnerumsätze',
+            ['Kellner', 'Bestellungen', 'Einnahmen', 'Auszahlungen', 'Total'],
+            kellnerPdfRows,
+            {
+                1: { halign: 'center', cellWidth: 27 },
+                2: { halign: 'right', cellWidth: 34 },
+                3: { halign: 'right', cellWidth: 34 },
+                4: { halign: 'right', cellWidth: 34 }
+            }
+        );
+
+        if (lastStats.sonderwuensche && lastStats.sonderwuensche.length) {
+            addPdfTablePage(
+                pdf,
+                'Sonderwünsche',
+                ['Sonderwunsch', 'Anzahl'],
+                lastStats.sonderwuensche.map(row => [row.text, `${fmtNumber(row.count)}x`]),
+                { 1: { halign: 'right', cellWidth: 30 } }
+            );
+        }
+
+        addPdfTablePage(
+            pdf,
+            'Preisliste',
+            ['Artikel', 'Station', 'Preis'],
+            lastStats.preisliste.map(row => [row.artikel, row.station, fmtEUR(row.preis)]),
+            { 2: { halign: 'right', cellWidth: 32 } }
+        );
+
+        addPdfFooters(pdf, lastStats, pageWidth, pageHeight);
+
+        const safeName = (currentFileBase || 'orderman')
+            .replace(/[^a-z0-9äöüß_-]+/gi, '_');
+        pdf.save(`${safeName}-auswertung.pdf`);
+    } catch (error) {
+        console.error(error);
+        showError(`PDF-Export fehlgeschlagen: ${error.message}`);
+    }
+}
+
+function addPdfExecutivePage(pdf, stats, pageWidth, pageHeight) {
+    const margin = 14;
+    const contentWidth = pageWidth - margin * 2;
+
+    drawPdfPageHeader(
+        pdf,
+        'FOCHINA ORDERMAN',
+        'Übersicht',
+        stats.title || 'Orderman Export Auswertung',
+        stats.subtitle || 'Excel-Export ausgewertet',
+        pageWidth
+    );
+
+    // Vier klar getrennte Kennzahlen statt mehrfacher Zusammenfassungen.
+    const cardGap = 6;
+    const cardWidth = (contentWidth - cardGap) / 2;
+    const cardHeight = 25;
+    const firstCardY = 48;
+
+    drawPdfKpiCard(pdf, margin, firstCardY, cardWidth, cardHeight,
+        'UMSATZ GESAMT', fmtEUR(stats.summary.umsatzGesamt),
+        ' ', [40, 125, 60]);
+
+    drawPdfKpiCard(pdf, margin + cardWidth + cardGap, firstCardY, cardWidth, cardHeight,
+        'HELFERKOSTEN', fmtEUR(stats.summary.helferKosten),
+        ' ', [166, 51, 51]);
+
+    drawPdfKpiCard(pdf, margin, firstCardY + cardHeight + cardGap, cardWidth, cardHeight,
+        'GETRÄNKE', fmtEUR(stats.summary.umsatzGetraenke),
+        `Helfer: ${fmtEUR(stats.summary.helferGetraenke)}`, [184, 134, 11]);
+
+    drawPdfKpiCard(pdf, margin + cardWidth + cardGap, firstCardY + cardHeight + cardGap, cardWidth, cardHeight,
+        'SPEISEN', fmtEUR(stats.summary.umsatzSpeisen),
+        `Helfer: ${fmtEUR(stats.summary.helferSpeisen)}`, [212, 168, 67]);
+
+    const sectionY = 111;
+    const leftWidth = 104;
+    const rightX = margin + leftWidth + 7;
+    const rightWidth = pageWidth - margin - rightX;
+    const panelHeight = 122;
+
+    drawPdfPanel(pdf, margin, sectionY, leftWidth, panelHeight, 'Umsatz nach Station');
+    drawPdfPanel(pdf, rightX, sectionY, rightWidth, panelHeight, 'Top 5 Artikel nach Umsatz');
+
+    // Echtes Chart.js-Diagramm aus dem Dashboard.
+    addPdfChartImage(pdf, 'stationChart', margin + 10, sectionY + 16, leftWidth - 20, 67);
+
+    const stationTotal = stats.stationData.reduce((total, row) => total + row.umsatz, 0);
+    stats.stationData.slice(0, 5).forEach((stationRow, index) => {
+        const station = stationRow.station;
+        const value = stationRow.umsatz;
+        const rowY = sectionY + 91 + index * 6;
+        const color = hexToRgb(stationColors[index % stationColors.length]);
+        pdf.setFillColor(...color);
+        pdf.circle(margin + 9, rowY - 1.2, 1.4, 'F');
+        pdf.setFont('helvetica', 'normal');
+        pdf.setFontSize(7.3);
+        pdf.setTextColor(65, 65, 65);
+        pdf.text(fitPdfText(pdf, station, 37), margin + 13, rowY);
+        pdf.setFont('helvetica', 'bold');
+        pdf.setTextColor(35, 35, 35);
+        pdf.text(fmtEUR(value), margin + leftWidth - 7, rowY, { align: 'right' });
+        pdf.setFont('helvetica', 'normal');
+        pdf.setFontSize(6.5);
+        pdf.setTextColor(135, 135, 135);
+        const pct = stationTotal ? value / stationTotal * 100 : 0;
+        pdf.text(`${pct.toFixed(1)} %`, margin + leftWidth - 7, rowY + 3.4, { align: 'right' });
+    });
+
+    const top5 = stats.topArtikelByUmsatz.slice(0, 5);
+    const topMax = Math.max(...top5.map(row => row.umsatz), 1);
+    top5.forEach((row, index) => {
+        const rowTop = sectionY + 19 + index * 19;
+        const numberX = rightX + 7;
+        const valueX = rightX + rightWidth - 7;
+        const barX = rightX + 17;
+        const barWidthMax = rightWidth - 31;
+        const barWidth = barWidthMax * row.umsatz / topMax;
+
+        pdf.setFillColor(245, 245, 245);
+        pdf.circle(numberX + 2.5, rowTop + 2.4, 3.2, 'F');
+        pdf.setFont('helvetica', 'bold');
+        pdf.setFontSize(7);
+        pdf.setTextColor(115, 91, 34);
+        pdf.text(String(index + 1), numberX + 2.5, rowTop + 3.2, { align: 'center' });
+
+        pdf.setFont('helvetica', 'bold');
+        pdf.setFontSize(8.2);
+        pdf.setTextColor(45, 45, 45);
+        pdf.text(fitPdfText(pdf, row.bonText, rightWidth - 48), barX, rowTop + 2.3);
+
+        pdf.setFontSize(7.7);
+        pdf.setTextColor(184, 134, 11);
+        pdf.text(fmtEUR(row.umsatz), valueX, rowTop + 2.3, { align: 'right' });
+
+        pdf.setFillColor(239, 239, 239);
+        pdf.roundedRect(barX, rowTop + 6, barWidthMax, 3.2, 1.2, 1.2, 'F');
+        pdf.setFillColor(184, 134, 11);
+        pdf.roundedRect(barX, rowTop + 6, Math.max(barWidth, 1.2), 3.2, 1.2, 1.2, 'F');
+
+        pdf.setFont('helvetica', 'normal');
+        pdf.setFontSize(6.6);
+        pdf.setTextColor(130, 130, 130);
+        pdf.text(`${fmtNumber(row.verbrauchGaeste + row.verbrauchHelfer)} Stück`, barX, rowTop + 13.5);
+    });
+
+
+}
+
+function addPdfAnalysisPage(pdf, stats, pageWidth, pageHeight) {
+    const margin = 14;
+    const contentWidth = pageWidth - margin * 2;
+
+    drawPdfPageHeader(
+    pdf,
+    'ANALYSE',
+    ' ',
+    stats.title || 'Orderman Export Auswertung',
+    stats.subtitle || 'Excel-Export ausgewertet',
+    pageWidth
+);
+
+    drawPdfPanel(pdf, margin, 48, contentWidth, 104, 'Stoßzeiten und Umsatzverlauf');
+    addPdfChartImage(pdf, 'zeitChart', margin + 6, 62, contentWidth - 12, 77);
+
+    const times = stats.stosszeiten || [];
+    const peak = times.length
+        ? times.reduce((best, row) => row.total > best.total ? row : best, times[0])
+        : null;
+
+    const bestellungen = stats.kellnerRows.reduce(
+        (sum, row) => sum + row.bestellungen,
+        0
+    );
+
+
+    const totalTimeRevenue = times.reduce((sum, row) => sum + row.total, 0);
+    const average = times.length ? totalTimeRevenue / times.length : 0;
+
+    const metricY = 158;
+    const metricGap = 5;
+    const metricWidth = (contentWidth - metricGap * 2) / 3;
+    drawPdfSmallMetricCard(pdf, margin, metricY, metricWidth, 23,
+        'STÄRKSTE STUNDE', peak ? `${peak.label} Uhr` : '-',
+        peak ? fmtEUR(peak.total) : 'Keine Daten');
+    drawPdfSmallMetricCard(pdf, margin + metricWidth + metricGap, metricY, metricWidth, 23,
+        'DURCHSCHNITT / STUNDE', fmtEUR(average),
+        `${fmtNumber(times.length)} Zeitabschnitte`);
+    drawPdfSmallMetricCard(
+        pdf,
+        margin + (metricWidth + metricGap) * 2,
+        metricY,
+        metricWidth,
+        23,
+        'BESTELLUNGEN',
+        fmtNumber(bestellungen),
+        'gesamt'
+    );
+
+    const lowerY = 189;
+    const leftWidth = 90;
+    const rightX = margin + leftWidth + 7;
+    const rightWidth = pageWidth - margin - rightX;
+    const lowerHeight = 73;
+
+    drawPdfPanel(pdf, margin, lowerY, leftWidth, lowerHeight, 'Helferverbrauch');
+    drawPdfPanel(pdf, rightX, lowerY, rightWidth, lowerHeight, 'Top 5 Kellner nach Total');
+
+    const helperRows = [
+        ['Getränke', stats.summary.helferGetraenke, [184, 134, 11]],
+        ['Speisen', stats.summary.helferSpeisen, [212, 168, 67]]
+    ];
+    const helperMax = Math.max(...helperRows.map(row => row[1]), 1);
+    helperRows.forEach((row, index) => {
+        const rowY = lowerY + 22 + index * 23;
+        pdf.setFont('helvetica', 'bold');
+        pdf.setFontSize(8);
+        pdf.setTextColor(55, 55, 55);
+        pdf.text(row[0], margin + 7, rowY);
+        pdf.setTextColor(...row[2]);
+        pdf.text(fmtEUR(row[1]), margin + leftWidth - 7, rowY, { align: 'right' });
+        pdf.setFillColor(239, 239, 239);
+        pdf.roundedRect(margin + 7, rowY + 5, leftWidth - 14, 5, 1.5, 1.5, 'F');
+        pdf.setFillColor(...row[2]);
+        pdf.roundedRect(margin + 7, rowY + 5,
+            Math.max((leftWidth - 14) * row[1] / helperMax, 1.5), 5, 1.5, 1.5, 'F');
+    });
+
+    const topKellner = stats.kellnerRows
+        .filter(row => !isInternalAccount(row.name))
+        .sort((a, b) => b.total - a.total)
+        .slice(0, 5);
+    const kellnerMax = Math.max(...topKellner.map(row => row.total), 1);
+    topKellner.forEach((row, index) => {
+        const rowY = lowerY + 19 + index * 10;
+        pdf.setFont('helvetica', 'bold');
+        pdf.setFontSize(7.4);
+        pdf.setTextColor(100, 78, 26);
+        pdf.text(String(index + 1), rightX + 7, rowY);
+        pdf.setTextColor(45, 45, 45);
+        pdf.text(fitPdfText(pdf, row.name, 47), rightX + 13, rowY);
+        pdf.setTextColor(184, 134, 11);
+        pdf.text(fmtEUR(row.total), rightX + rightWidth - 7, rowY, { align: 'right' });
+        pdf.setFillColor(240, 240, 240);
+        pdf.roundedRect(rightX + 13, rowY + 3, rightWidth - 31, 2.3, 0.8, 0.8, 'F');
+        pdf.setFillColor(184, 134, 11);
+        pdf.roundedRect(rightX + 13, rowY + 3,
+            Math.max((rightWidth - 31) * row.total / kellnerMax, 1), 2.3, 0.8, 0.8, 'F');
+    });
+}
+
+function drawPdfPageHeader(pdf, eyebrow, section, title, subtitle, pageWidth) {
+    const margin = 14;
+    pdf.setFillColor(249, 249, 249);
+    pdf.rect(0, 0, pageWidth, 38, 'F');
+    pdf.setFillColor(184, 134, 11);
+    pdf.rect(0, 0, 4, 38, 'F');
+    pdf.setDrawColor(228, 228, 228);
+    pdf.setLineWidth(0.2);
+    pdf.line(0, 38, pageWidth, 38);
+
+    pdf.setFont('helvetica', 'bold');
+    pdf.setFontSize(7.5);
+    pdf.setTextColor(184, 134, 11);
+    pdf.text(`${eyebrow} · ${section}`.toUpperCase(), margin, 9);
+
+    pdf.setFont('helvetica', 'bold');
+    pdf.setFontSize(17);
+    pdf.setTextColor(32, 32, 32);
+    pdf.text(fitPdfText(pdf, title, pageWidth - margin * 2), margin, 21);
+
+    pdf.setFont('helvetica', 'normal');
+    pdf.setFontSize(8);
+    pdf.setTextColor(115, 115, 115);
+    pdf.text(fitPdfText(pdf, subtitle, pageWidth - margin * 2), margin, 30);
+}
+
+function drawPdfKpiCard(pdf, x, y, width, height, label, value, note, accent) {
+    pdf.setFillColor(255, 255, 255);
+    pdf.setDrawColor(228, 228, 228);
+    pdf.roundedRect(x, y, width, height, 3, 3, 'FD');
+    pdf.setFillColor(...accent);
+    pdf.roundedRect(x, y, 3.2, height, 1.5, 1.5, 'F');
+
+    pdf.setFont('helvetica', 'bold');
+    pdf.setFontSize(7);
+    pdf.setTextColor(120, 120, 120);
+    pdf.text(label, x + 8, y + 7);
+
+    pdf.setFontSize(15);
+    pdf.setTextColor(35, 35, 35);
+    pdf.text(fitPdfText(pdf, value, width - 16), x + 8, y + 16);
+
+    pdf.setFont('helvetica', 'normal');
+    pdf.setFontSize(6.5);
+    pdf.setTextColor(130, 130, 130);
+    pdf.text(fitPdfText(pdf, note, width - 16), x + 8, y + 21.5);
+}
+
+function drawPdfSmallMetricCard(pdf, x, y, width, height, label, value, note) {
+    pdf.setFillColor(250, 250, 250);
+    pdf.setDrawColor(229, 229, 229);
+    pdf.roundedRect(x, y, width, height, 2.5, 2.5, 'FD');
+    pdf.setFont('helvetica', 'bold');
+    pdf.setFontSize(6.5);
+    pdf.setTextColor(130, 130, 130);
+    pdf.text(label, x + 5, y + 6.5);
+    pdf.setFontSize(11.5);
+    pdf.setTextColor(45, 45, 45);
+    pdf.text(fitPdfText(pdf, value, width - 10), x + 5, y + 14);
+    pdf.setFont('helvetica', 'normal');
+    pdf.setFontSize(6.3);
+    pdf.setTextColor(130, 130, 130);
+    pdf.text(fitPdfText(pdf, note, width - 10), x + 5, y + 19.2);
+}
+
+function drawPdfPanel(pdf, x, y, width, height, title) {
+    pdf.setFillColor(255, 255, 255);
+    pdf.setDrawColor(228, 228, 228);
+    pdf.roundedRect(x, y, width, height, 3, 3, 'FD');
+    pdf.setFont('helvetica', 'bold');
+    pdf.setFontSize(9.5);
+    pdf.setTextColor(60, 60, 60);
+    pdf.text(fitPdfText(pdf, title, width - 12), x + 6, y + 9);
+    pdf.setDrawColor(239, 239, 239);
+    pdf.line(x + 6, y + 13, x + width - 6, y + 13);
+}
+
+function drawPdfInlineMetric(pdf, x, y, label, value, note) {
+    pdf.setFont('helvetica', 'bold');
+    pdf.setFontSize(6.4);
+    pdf.setTextColor(134, 105, 38);
+    pdf.text(label, x, y);
+    pdf.setFontSize(9.5);
+    pdf.setTextColor(40, 40, 40);
+    pdf.text(fitPdfText(pdf, value, 50), x, y + 7);
+    pdf.setFont('helvetica', 'normal');
+    pdf.setFontSize(6.2);
+    pdf.setTextColor(125, 125, 125);
+    pdf.text(fitPdfText(pdf, note, 50), x, y + 12);
+}
+
+function addPdfChartImage(pdf, canvasId, x, y, width, height) {
+    const canvas = document.getElementById(canvasId);
+    if (!canvas || !canvas.width || !canvas.height) {
+        pdf.setFont('helvetica', 'normal');
+        pdf.setFontSize(8);
+        pdf.setTextColor(145, 145, 145);
+        pdf.text('Diagramm nicht verfügbar', x + width / 2, y + height / 2, { align: 'center' });
+        return;
+    }
+
+    const imageData = canvas.toDataURL('image/png', 1.0);
+    const canvasRatio = canvas.width / canvas.height;
+    const boxRatio = width / height;
+    let renderWidth = width;
+    let renderHeight = height;
+    let renderX = x;
+    let renderY = y;
+
+    if (canvasRatio > boxRatio) {
+        renderHeight = width / canvasRatio;
+        renderY = y + (height - renderHeight) / 2;
+    } else {
+        renderWidth = height * canvasRatio;
+        renderX = x + (width - renderWidth) / 2;
+    }
+
+    pdf.addImage(imageData, 'PNG', renderX, renderY, renderWidth, renderHeight, undefined, 'FAST');
+}
+
+function fitPdfText(pdf, value, maxWidth) {
+    const source = String(value ?? '');
+    if (pdf.getTextWidth(source) <= maxWidth) return source;
+    let shortened = source;
+    while (shortened.length > 1 && pdf.getTextWidth(`${shortened}…`) > maxWidth) {
+        shortened = shortened.slice(0, -1);
+    }
+    return `${shortened}…`;
+}
+
+function hexToRgb(hex) {
+    const value = String(hex).replace('#', '');
+    const normalized = value.length === 3
+        ? value.split('').map(char => char + char).join('')
+        : value;
+    return [
+        parseInt(normalized.slice(0, 2), 16),
+        parseInt(normalized.slice(2, 4), 16),
+        parseInt(normalized.slice(4, 6), 16)
+    ];
+}
+
+function addPdfFooters(pdf, stats, pageWidth, pageHeight) {
+    const margin = 14;
+    const pageCount = pdf.getNumberOfPages();
+    const generatedDate = new Date().toLocaleDateString('de-DE');
+
+    for (let page = 1; page <= pageCount; page++) {
+        pdf.setPage(page);
+        pdf.setDrawColor(232, 232, 232);
+        pdf.setLineWidth(0.2);
+        pdf.line(margin, pageHeight - 10, pageWidth - margin, pageHeight - 10);
+        pdf.setFont('helvetica', 'normal');
+        pdf.setFontSize(6.8);
+        pdf.setTextColor(130, 130, 130);
+        pdf.text(
+            `${stats.title || 'Orderman Export Auswertung'} · erstellt am ${generatedDate}`,
+            margin,
+            pageHeight - 5
+        );
+        pdf.text(`Seite ${page} / ${pageCount}`, pageWidth - margin, pageHeight - 5, { align: 'right' });
+    }
+}
+
+function addPdfTableSection(pdf, title, head, body, columnStyles = {}, startY = null, newPage = false) {
+    const margin = 14;
+
+    if (newPage) pdf.addPage();
+
+    pdf.setFont('helvetica', 'bold');
+    pdf.setFontSize(12);
+    pdf.setTextColor(26, 26, 26);
+    const y = startY !== null ? startY : margin + 8;
+    pdf.text(title, margin, y);
+
+    pdf.autoTable({
+        startY: y + 6,
+        head: [head],
+        body,
+        theme: 'plain',
+        styles: {
+            fontSize: 7.2,
+            cellPadding: 2.2,
+            overflow: 'linebreak',
+            fillColor: [255, 255, 255],
+            textColor: [51, 51, 51],
+            lineColor: [221, 221, 221],
+            lineWidth: 0.2,
+            font: 'helvetica',
+            fontStyle: 'normal'
+        },
+        headStyles: {
+            fillColor: [247, 247, 247],
+            textColor: [105, 105, 105],
+            fontStyle: 'bold',
+            lineColor: [211, 211, 211],
+            lineWidth: 0.3,
+            halign: 'left',
+            valign: 'middle'
+        },
+        bodyStyles: {
+            fillColor: [255, 255, 255],
+            textColor: [34, 34, 34],
+            lineColor: [236, 236, 236],
+            lineWidth: 0.2
+        },
+        alternateRowStyles: {
+            fillColor: [250, 250, 250]
+        },
+        margin: {
+            left: margin,
+            right: margin
+        },
+        columnStyles
+    });
+
+    return pdf.lastAutoTable.finalY + 10;
+}
+
+function addPdfTablePage(pdf, title, head, body, columnStyles = {}) {
+    return addPdfTableSection(pdf, title, head, body, columnStyles, null, true);
+}
+
+function resetDashboard() {
+    pdfBtn.style.display = 'none';
+    helferControl.style.display = 'none';
+    lastStats = null;
+    lastParsedSheets = null;
+    helferName = '';
+}
+
+function showError(message) {
+    const box = document.getElementById('errorBox');
+    box.style.display = 'block';
+    box.textContent = message;
+}
+
+function clearError() {
+    document.getElementById('errorBox').style.display = 'none';
+}
+
+function num(value) {
+    if (value === null || value === undefined || value === '') return 0;
+    if (typeof value === 'number') return value;
+
+    let textValue = String(value)
+        .trim()
+        .replace('EUR', '')
+        .replace('€', '')
+        .replace(/\s/g, '');
+
+    if (/^-?[0-9]{1,3}(\.[0-9]{3})*,[0-9]+$/.test(textValue)) {
+        textValue = textValue.replace(/\./g, '').replace(',', '.');
+    } else {
+        textValue = textValue.replace(',', '.');
+    }
+
+    const parsed = parseFloat(textValue);
+    return isNaN(parsed) ? 0 : parsed;
+}
+
+function text(value) {
+    return value === null || value === undefined ? '' : String(value).trim();
+}
+
+function fmtEUR(value) {
+    return (Number(value) || 0).toLocaleString('de-DE', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    }) + ' €';
+}
+
+function fmtNumber(value) {
+    return (Number(value) || 0).toLocaleString('de-DE', {
+        maximumFractionDigits: 2
+    });
+}
+
+function buildKeyMap(row) {
+    const map = {};
+    Object.keys(row).forEach(key => {
+        map[normalizeName(key)] = key;
+    });
+    return map;
+}
+
+function normalizeName(value) {
+    return String(value ?? '')
+        .toLowerCase()
+        .trim()
+        .replace(/\s+/g, ' ')
+        .replace(/ü/g, 'ue')
+        .replace(/ö/g, 'oe')
+        .replace(/ä/g, 'ae')
+        .replace(/ß/g, 'ss');
+}
+
+function escapeHTML(value) {
+    return String(value ?? '').replace(/[&<>'"]/g, char => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        "'": '&#39;',
+        '"': '&quot;'
+    }[char]));
+}
+
+function sum(rows, selector) {
+    return rows.reduce((total, row) => total + selector(row), 0);
+}
+
+function isInternalAccount(name) {
+    if (!helferName) return false;
+    return normalizeName(name) === normalizeName(helferName);
+}
+
+function isStation(station, target) {
+    return normalizeName(station) === normalizeName(target);
+}
+
+function stationRank(station) {
+    const value = normalizeName(station);
+
+    if (value.includes('getraenke') || value.includes('getranke') || value.includes('bar')) {
+        return -2;
+    }
+
+    if (value.includes('speisen') || value.includes('essen') || value.includes('kueche') || value.includes('kuche')) {
+        return -1;
+    }
+
+    return 0;
+}
+
+function isZusatzRow(name, total) {
+    const value = normalizeName(name);
+    return value.startsWith('zusaetze -') || total === 0;
+}
+
+function isSummaryText(value) {
+    const normalized = normalizeName(value);
+    return normalized.includes('summe') || normalized === 'gesamt' || normalized === 'total';
+}
+
+function isTransferComment(comment) {
+    const normalized = normalizeName(comment);
+    return normalized.includes('wird umgebucht auf') || normalized.includes('eingegeben von');
+}
+
+function isStornoRow(row) {
+    return (
+        normalizeName(row.joinedComment || '').includes('storno der bestellung') ||
+        row.anzahl < 0 ||
+        row.total < 0 ||
+        row.storniert > 0
+    );
+}
+
+// Jede Stornierung erzeugt im Export ZWEI Zeilen: die ursprüngliche Bestellzeile
+// (mit "storniert" > 0, aber weiterhin positivem Anzahl/Total) UND eine separate
+// Korrekturzeile mit negativem Anzahl/Total, die über "Stornozeile" auf die
+// Originalzeile verweist. isStornoRow() erkennt beide Zeilen (das ist für den
+// Ausschluss aus den Stoßzeiten richtig, weil sich beide zu 0 aufsummieren).
+// Für die Storno-Kennzahl (Anzahl/Wert) darf aber nur EINE der beiden Zeilen
+// gezählt werden, sonst wird jeder Storno-Vorgang doppelt gezählt.
+function isStornoCountedRow(row) {
+    if (row.anzahl < 0 || row.total < 0) return true;
+    if (row.storniert > 0) return false;
+    return normalizeName(row.joinedComment || '').includes('storno der bestellung');
+}
+
+function parseGermanDate(value) {
+    if (!value) return null;
+    if (value instanceof Date) return isNaN(value) ? null : value;
+
+    const match = String(value)
+        .trim()
+        .match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})(?:\s+(\d{1,2}):(\d{2}))?/);
+
+    if (match) {
+        const [, day, month, year, hour, minute] = match;
+
+        return new Date(
+            +year,
+            +month - 1,
+            +day,
+            hour ? +hour : 0,
+            minute ? +minute : 0
+        );
+    }
+
+    const date = new Date(value);
+    return isNaN(date) ? null : date;
+}
+</script>
+
+</body></html>
