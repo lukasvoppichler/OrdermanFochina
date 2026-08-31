@@ -407,14 +407,14 @@
     <div class="subtitle-text">Fochina Orderman v1.0</div>
 
     <div class="header">
-        <h1 id="dashTitle">Feuerwehrfest mit Fahrzeugeinweihung</h1>
-        <p id="dashSubtitle">06.06.2026, 16:33 – 07.06.2026, 16:50 Uhr</p>
+        <h1 id="dashTitle">Orderman Export</h1>
+        <p id="dashSubtitle"></p>
     </div>
 
     <label class="upload-box" id="dropZone">
         <h2>Excel-Datei auswählen oder hier ablegen</h2>
         <p>.xlsx oder .xls mit Gesamtübersicht, Produktübersicht, Kellner und Produktübersicht nach Kellner</p>
-        <div class="filename" id="filename">Feuerwehrfest mit Fahrzeugeinweihung.xlsx</div>
+        <div class="filename" id="filename">example.xlsx</div>
         <input type="file" id="excelFile" accept=".xlsx,.xls" hidden="">
     </label>
 
@@ -422,7 +422,7 @@
 
     <div id="helferControl" class="helfer-control" style="display: flex;">
         <label for="helferSelect">Helfer-Kellner:</label>
-        <select id="helferSelect"><option value="">Kein Helfer</option><option value="Alexandra">Alexandra</option><option value="Annalena">Annalena</option><option value="HELFER" selected="">HELFER</option><option value="Hons">Hons</option><option value="Jola">Jola</option><option value="Leonie">Leonie</option><option value="Magdalena">Magdalena</option><option value="Marie">Marie</option><option value="Thomas">Thomas</option></select>
+        <select id="helferSelect"></select>
         <span class="helfer-hint">Legt fest, welcher Kellner-Eintrag als "Helfer" (statt Gast) gezählt wird.</span>
     </div>
 
@@ -431,13 +431,13 @@
     <div class="cards" id="summaryCards">
         <div class="card good">
             <h3>Umsatz Gesamt</h3>
-            <div id="umsatzGesamt" class="value">6.430,00 €</div>
-            <div id="kostenGesamtHelfer" class="sub helfer">Helferkosten: 3.219,50 €</div>
+            <div id="umsatzGesamt" class="value">- €</div>
+            <div id="kostenGesamtHelfer" class="sub helfer">Helferkosten: - €</div>
         </div>
         <div class="card" id="bestsellerCard">
             <h3>Bestseller</h3>
-            <div id="bestseller" class="value">Bier</div>
-            <div id="bestsellerSub" class="sub">338x · 1.183,00 €</div>
+            <div id="bestseller" class="value">- €</div>
+            <div id="bestsellerSub" class="sub">-x · - €</div>
         </div>
     </div>
 
@@ -448,22 +448,22 @@
             <div id="stationLegend" class="fixed-legend">
             <div class="row">
                 <span class="label"><span class="dot" style="background:#b8860b"></span>Getränke</span>
-                <span><span class="amount">3.657,00 €</span><span class="pct">56.9%</span></span>
+                <span><span class="amount">- €</span><span class="pct">-</span></span>
             </div>
         
             <div class="row">
                 <span class="label"><span class="dot" style="background:#d4a843"></span>Speisen</span>
-                <span><span class="amount">2.773,00 €</span><span class="pct">43.1%</span></span>
+                <span><span class="amount">- €</span><span class="pct">-</span></span>
             </div>
         </div>
         </div>
         <div class="panel">
-            <h2>Top 10 Artikel nach Umsatz</h2>
+            <h2>Top 10 Artikel nach Menge</h2>
             <canvas id="topArtikelChart" width="602" height="301" style="display: block; box-sizing: border-box; height: 301px; width: 602px;"></canvas>
         </div>
         <div class="panel full">
             <h2>Stoßzeiten</h2>
-            <div id="stosszeitNote" class="sub-note">Stoßzeit: 11:00 Uhr · 985,00 €</div>
+            <div id="stosszeitNote" class="sub-note">Stoßzeit: - Uhr · - €</div>
             <canvas id="zeitChart" width="1272" height="636" style="display: block; box-sizing: border-box; height: 636px; width: 1272px;"></canvas>
         </div>
         <div class="panel full">
@@ -479,84 +479,10 @@
             </tr>
         </thead>
         <tbody>
-            
-        <tr>
-            <td>Annalena</td>
-            <td>146</td>
-            <td>2.621,00 €</td>
-            <td class="negative">-1.255,50 €</td>
-            <td><strong>1.365,50 €</strong></td>
-        </tr>
-    
-        <tr>
-            <td>Jola</td>
-            <td>152</td>
-            <td>1.719,50 €</td>
-            <td class="negative">-489,00 €</td>
-            <td><strong>1.230,50 €</strong></td>
-        </tr>
-    
-        <tr>
-            <td>Hons</td>
-            <td>108</td>
-            <td>1.463,00 €</td>
-            <td class="negative">-421,50 €</td>
-            <td><strong>1.041,50 €</strong></td>
-        </tr>
-    
-        <tr>
-            <td>Thomas</td>
-            <td>114</td>
-            <td>1.280,50 €</td>
-            <td class="negative">-433,50 €</td>
-            <td><strong>847,00 €</strong></td>
-        </tr>
-    
-        <tr>
-            <td>Marie</td>
-            <td>89</td>
-            <td>1.257,50 €</td>
-            <td class="negative">-440,00 €</td>
-            <td><strong>817,50 €</strong></td>
-        </tr>
-    
-        <tr>
-            <td>Magdalena</td>
-            <td>64</td>
-            <td>606,00 €</td>
-            <td class="negative">-31,00 €</td>
-            <td><strong>575,00 €</strong></td>
-        </tr>
-    
-        <tr>
-            <td>Leonie</td>
-            <td>70</td>
-            <td>736,00 €</td>
-            <td class="negative">-258,00 €</td>
-            <td><strong>478,00 €</strong></td>
-        </tr>
-    
-        <tr>
-            <td>Alexandra</td>
-            <td>13</td>
-            <td>89,50 €</td>
-            <td class="negative">-14,50 €</td>
-            <td><strong>75,00 €</strong></td>
-        </tr>
-    
-            
+        
                 <tr class="kellner-helfer-divider">
                     <td colspan="5">Helfer</td>
                 </tr>
-                
-        <tr>
-            <td>HELFER</td>
-            <td>140</td>
-            <td>3.219,50 €</td>
-            <td class="negative">0,00 €</td>
-            <td><strong>3.219,50 €</strong></td>
-        </tr>
-    
             
         </tbody>
     </table>
@@ -572,139 +498,6 @@
             </thead>
             <tbody>
                 
-                    <tr>
-                        <td class="rank">1</td>
-                        <td>Bier<div class="muted">Bier - Bier</div></td>
-                        <td>338</td>
-                        <td><strong>1.025,50 €</strong></td>
-                    </tr>
-                
-                    <tr>
-                        <td class="rank">2</td>
-                        <td>Radler<div class="muted">Bier - Radler</div></td>
-                        <td>189</td>
-                        <td><strong>567,00 €</strong></td>
-                    </tr>
-                
-                    <tr>
-                        <td class="rank">3</td>
-                        <td>Coca Cola<div class="muted">Säfte - Cola</div></td>
-                        <td>177</td>
-                        <td><strong>469,00 €</strong></td>
-                    </tr>
-                
-                    <tr>
-                        <td class="rank">4</td>
-                        <td>Hefe Cola<div class="muted">Hefe - Hefe Cola</div></td>
-                        <td>84</td>
-                        <td><strong>252,00 €</strong></td>
-                    </tr>
-                
-                    <tr>
-                        <td class="rank">5</td>
-                        <td>Hugo<div class="muted">alk. Getränke - Hugo</div></td>
-                        <td>63</td>
-                        <td><strong>210,00 €</strong></td>
-                    </tr>
-                
-                    <tr>
-                        <td class="rank">6</td>
-                        <td>Wasser mit Gas<div class="muted">Wasser - Wasser mit Gas</div></td>
-                        <td>91</td>
-                        <td><strong>192,50 €</strong></td>
-                    </tr>
-                
-                    <tr>
-                        <td class="rank">7</td>
-                        <td>Hefe Limo<div class="muted">Hefe - Hefe Limo</div></td>
-                        <td>60</td>
-                        <td><strong>178,50 €</strong></td>
-                    </tr>
-                
-                    <tr>
-                        <td class="rank">8</td>
-                        <td>Schnaps INGWER-LIMETTE<div class="muted">Schnaps INGWER-LIMETTE</div></td>
-                        <td>55</td>
-                        <td><strong>165,00 €</strong></td>
-                    </tr>
-                
-                    <tr>
-                        <td class="rank">9</td>
-                        <td>Calypso<div class="muted">Säfte - Calypso</div></td>
-                        <td>61</td>
-                        <td><strong>137,50 €</strong></td>
-                    </tr>
-                
-                    <tr>
-                        <td class="rank">10</td>
-                        <td>Wasser ohne Gas<div class="muted">Wasser - Wasser ohne Gas</div></td>
-                        <td>55</td>
-                        <td><strong>110,00 €</strong></td>
-                    </tr>
-                
-                    <tr>
-                        <td class="rank">11</td>
-                        <td>Spezi<div class="muted">Säfte - Spezi</div></td>
-                        <td>36</td>
-                        <td><strong>101,50 €</strong></td>
-                    </tr>
-                
-                    <tr>
-                        <td class="rank">12</td>
-                        <td>Bier alkoholfrei<div class="muted">Bier - Bier alkoholfrei</div></td>
-                        <td>23</td>
-                        <td><strong>63,00 €</strong></td>
-                    </tr>
-                
-                    <tr>
-                        <td class="rank">13</td>
-                        <td>Apfelsaft<div class="muted">Säfte - Apfelsaft</div></td>
-                        <td>33</td>
-                        <td><strong>60,00 €</strong></td>
-                    </tr>
-                
-                    <tr>
-                        <td class="rank">14</td>
-                        <td>Hefe<div class="muted">Hefe - Hefe</div></td>
-                        <td>26</td>
-                        <td><strong>59,50 €</strong></td>
-                    </tr>
-                
-                    <tr>
-                        <td class="rank">15</td>
-                        <td>Vodka Skiwasser<div class="muted">alk. Getränke - Vodka Skiwasser</div></td>
-                        <td>12</td>
-                        <td><strong>48,00 €</strong></td>
-                    </tr>
-                
-                    <tr>
-                        <td class="rank">16</td>
-                        <td>Bier Cola<div class="muted">Bier - Bier Cola</div></td>
-                        <td>2</td>
-                        <td><strong>7,00 €</strong></td>
-                    </tr>
-                
-                    <tr>
-                        <td class="rank">17</td>
-                        <td>Schnaps ZIRMILA<div class="muted">Schnaps ZIRMILA</div></td>
-                        <td>2</td>
-                        <td><strong>6,00 €</strong></td>
-                    </tr>
-                
-                    <tr>
-                        <td class="rank">18</td>
-                        <td>Aranciata<div class="muted">Säfte - Aranciata</div></td>
-                        <td>2</td>
-                        <td><strong>5,00 €</strong></td>
-                    </tr>
-                
-                    <tr>
-                        <td class="rank">19</td>
-                        <td>Radler sauer<div class="muted">Bier - Bier sauer</div></td>
-                        <td>1</td>
-                        <td><strong>0,00 €</strong></td>
-                    </tr>
-                
             </tbody>
         </table></div><div class="panel full"><h2>Speisen</h2><table>
             <thead>
@@ -716,55 +509,6 @@
                 </tr>
             </thead>
             <tbody>
-                
-                    <tr>
-                        <td class="rank">1</td>
-                        <td>Currywurst mit Brot<div class="muted">Speisen - Currywurst mit Brot</div></td>
-                        <td>120</td>
-                        <td><strong>476,00 €</strong></td>
-                    </tr>
-                
-                    <tr>
-                        <td class="rank">2</td>
-                        <td>Pressknödel<div class="muted">Speisen - Pressknödel mit Kraut</div></td>
-                        <td>126</td>
-                        <td><strong>448,00 €</strong></td>
-                    </tr>
-                
-                    <tr>
-                        <td class="rank">3</td>
-                        <td>Bratwurst mit Brot<div class="muted">Speisen - Bratwurst mit Brot</div></td>
-                        <td>91</td>
-                        <td><strong>442,00 €</strong></td>
-                    </tr>
-                
-                    <tr>
-                        <td class="rank">4</td>
-                        <td>Pommes<div class="muted">Speisen - Pommes</div></td>
-                        <td>199</td>
-                        <td><strong>402,00 €</strong></td>
-                    </tr>
-                
-                    <tr>
-                        <td class="rank">5</td>
-                        <td>Hirtenmaccheroni<div class="muted">Speisen - Hirtenmaccheroni</div></td>
-                        <td>117</td>
-                        <td><strong>384,00 €</strong></td>
-                    </tr>
-                
-                    <tr>
-                        <td class="rank">6</td>
-                        <td>Schnitzel mit Pommes<div class="muted">Speisen - Schnitzel mit Pommes</div></td>
-                        <td>92</td>
-                        <td><strong>351,00 €</strong></td>
-                    </tr>
-                
-                    <tr>
-                        <td class="rank">7</td>
-                        <td>Schnitzel mit Kartoffe<div class="muted">Speisen - Schnitzel mit Kartoffelsalat</div></td>
-                        <td>60</td>
-                        <td><strong>270,00 €</strong></td>
-                    </tr>
                 
             </tbody>
         </table></div></div>
@@ -778,141 +522,6 @@
             </tr>
         </thead>
         <tbody>
-            
-                <tr>
-                    <td>Ohne brot</td>
-                    <td>7x</td>
-                </tr>
-            
-                <tr>
-                    <td>zum Mitnehmen</td>
-                    <td>6x</td>
-                </tr>
-            
-                <tr>
-                    <td>Für luk</td>
-                    <td>4x</td>
-                </tr>
-            
-                <tr>
-                    <td>Mit Kartoffelsalat</td>
-                    <td>4x</td>
-                </tr>
-            
-                <tr>
-                    <td>Für Manuel</td>
-                    <td>3x</td>
-                </tr>
-            
-                <tr>
-                    <td>Ohne brot achtung GLUT</td>
-                    <td>3x</td>
-                </tr>
-            
-                <tr>
-                    <td>Currywurst mit Brot</td>
-                    <td>2x</td>
-                </tr>
-            
-                <tr>
-                    <td>ohne Eis</td>
-                    <td>2x</td>
-                </tr>
-            
-                <tr>
-                    <td>Pommes</td>
-                    <td>2x</td>
-                </tr>
-            
-                <tr>
-                    <td>Schnitzel mit Pommes</td>
-                    <td>2x</td>
-                </tr>
-            
-                <tr>
-                    <td>2xbecher</td>
-                    <td>1x</td>
-                </tr>
-            
-                <tr>
-                    <td>Bei zwei viel Cola</td>
-                    <td>1x</td>
-                </tr>
-            
-                <tr>
-                    <td>Bratwurst mit Brot</td>
-                    <td>1x</td>
-                </tr>
-            
-                <tr>
-                    <td>Coca Cola</td>
-                    <td>1x</td>
-                </tr>
-            
-                <tr>
-                    <td>Für Felix</td>
-                    <td>1x</td>
-                </tr>
-            
-                <tr>
-                    <td>für Leo</td>
-                    <td>1x</td>
-                </tr>
-            
-                <tr>
-                    <td>Hefe Cola</td>
-                    <td>1x</td>
-                </tr>
-            
-                <tr>
-                    <td>Hefe Limo</td>
-                    <td>1x</td>
-                </tr>
-            
-                <tr>
-                    <td>Hirtenmaccheroni</td>
-                    <td>1x</td>
-                </tr>
-            
-                <tr>
-                    <td>Klein</td>
-                    <td>1x</td>
-                </tr>
-            
-                <tr>
-                    <td>Nur Kartoffelsalat</td>
-                    <td>1x</td>
-                </tr>
-            
-                <tr>
-                    <td>Nur Kartoffelsalat keine Pommes</td>
-                    <td>1x</td>
-                </tr>
-            
-                <tr>
-                    <td>Ohne brot achtung GLUTENFREI!!!</td>
-                    <td>1x</td>
-                </tr>
-            
-                <tr>
-                    <td>Ohne Kartoffelsalat mit Brot</td>
-                    <td>1x</td>
-                </tr>
-            
-                <tr>
-                    <td>Radler</td>
-                    <td>1x</td>
-                </tr>
-            
-                <tr>
-                    <td>Viel Limo</td>
-                    <td>1x</td>
-                </tr>
-            
-                <tr>
-                    <td>Wasser mit Gas</td>
-                    <td>1x</td>
-                </tr>
             
         </tbody>
     </table>
@@ -928,162 +537,6 @@
             </tr>
         </thead>
         <tbody>
-            
-                <tr>
-                    <td>Vodka Skiwasser<div class="muted">alk. Getränke - Vodka Skiwasser</div></td>
-                    <td>Getränke</td>
-                    <td>4,00 €</td>
-                </tr>
-            
-                <tr>
-                    <td>Bier<div class="muted">Bier - Bier</div></td>
-                    <td>Getränke</td>
-                    <td>3,50 €</td>
-                </tr>
-            
-                <tr>
-                    <td>Radler<div class="muted">Bier - Radler</div></td>
-                    <td>Getränke</td>
-                    <td>3,50 €</td>
-                </tr>
-            
-                <tr>
-                    <td>Bier Cola<div class="muted">Bier - Bier Cola</div></td>
-                    <td>Getränke</td>
-                    <td>3,50 €</td>
-                </tr>
-            
-                <tr>
-                    <td>Radler sauer<div class="muted">Bier - Bier sauer</div></td>
-                    <td>Getränke</td>
-                    <td>3,50 €</td>
-                </tr>
-            
-                <tr>
-                    <td>Hefe<div class="muted">Hefe - Hefe</div></td>
-                    <td>Getränke</td>
-                    <td>3,50 €</td>
-                </tr>
-            
-                <tr>
-                    <td>Hefe Limo<div class="muted">Hefe - Hefe Limo</div></td>
-                    <td>Getränke</td>
-                    <td>3,50 €</td>
-                </tr>
-            
-                <tr>
-                    <td>Hefe Cola<div class="muted">Hefe - Hefe Cola</div></td>
-                    <td>Getränke</td>
-                    <td>3,50 €</td>
-                </tr>
-            
-                <tr>
-                    <td>Hugo<div class="muted">alk. Getränke - Hugo</div></td>
-                    <td>Getränke</td>
-                    <td>3,50 €</td>
-                </tr>
-            
-                <tr>
-                    <td>Coca Cola<div class="muted">Säfte - Cola</div></td>
-                    <td>Getränke</td>
-                    <td>3,50 €</td>
-                </tr>
-            
-                <tr>
-                    <td>Spezi<div class="muted">Säfte - Spezi</div></td>
-                    <td>Getränke</td>
-                    <td>3,50 €</td>
-                </tr>
-            
-                <tr>
-                    <td>Bier alkoholfrei<div class="muted">Bier - Bier alkoholfrei</div></td>
-                    <td>Getränke</td>
-                    <td>3,00 €</td>
-                </tr>
-            
-                <tr>
-                    <td>Schnaps ZIRMILA<div class="muted">Schnaps ZIRMILA</div></td>
-                    <td>Getränke</td>
-                    <td>3,00 €</td>
-                </tr>
-            
-                <tr>
-                    <td>Schnaps INGWER-LIMETTE<div class="muted">Schnaps INGWER-LIMETTE</div></td>
-                    <td>Getränke</td>
-                    <td>3,00 €</td>
-                </tr>
-            
-                <tr>
-                    <td>Calypso<div class="muted">Säfte - Calypso</div></td>
-                    <td>Getränke</td>
-                    <td>2,50 €</td>
-                </tr>
-            
-                <tr>
-                    <td>Aranciata<div class="muted">Säfte - Aranciata</div></td>
-                    <td>Getränke</td>
-                    <td>2,50 €</td>
-                </tr>
-            
-                <tr>
-                    <td>Apfelsaft<div class="muted">Säfte - Apfelsaft</div></td>
-                    <td>Getränke</td>
-                    <td>2,50 €</td>
-                </tr>
-            
-                <tr>
-                    <td>Wasser mit Gas<div class="muted">Wasser - Wasser mit Gas</div></td>
-                    <td>Getränke</td>
-                    <td>2,50 €</td>
-                </tr>
-            
-                <tr>
-                    <td>Wasser ohne Gas<div class="muted">Wasser - Wasser ohne Gas</div></td>
-                    <td>Getränke</td>
-                    <td>2,50 €</td>
-                </tr>
-            
-                <tr>
-                    <td>Schnitzel mit Kartoffe<div class="muted">Speisen - Schnitzel mit Kartoffelsalat</div></td>
-                    <td>Speisen</td>
-                    <td>9,00 €</td>
-                </tr>
-            
-                <tr>
-                    <td>Schnitzel mit Pommes<div class="muted">Speisen - Schnitzel mit Pommes</div></td>
-                    <td>Speisen</td>
-                    <td>9,00 €</td>
-                </tr>
-            
-                <tr>
-                    <td>Hirtenmaccheroni<div class="muted">Speisen - Hirtenmaccheroni</div></td>
-                    <td>Speisen</td>
-                    <td>8,00 €</td>
-                </tr>
-            
-                <tr>
-                    <td>Pressknödel<div class="muted">Speisen - Pressknödel mit Kraut</div></td>
-                    <td>Speisen</td>
-                    <td>8,00 €</td>
-                </tr>
-            
-                <tr>
-                    <td>Currywurst mit Brot<div class="muted">Speisen - Currywurst mit Brot</div></td>
-                    <td>Speisen</td>
-                    <td>7,00 €</td>
-                </tr>
-            
-                <tr>
-                    <td>Bratwurst mit Brot<div class="muted">Speisen - Bratwurst mit Brot</div></td>
-                    <td>Speisen</td>
-                    <td>6,50 €</td>
-                </tr>
-            
-                <tr>
-                    <td>Pommes<div class="muted">Speisen - Pommes</div></td>
-                    <td>Speisen</td>
-                    <td>3,00 €</td>
-                </tr>
             
         </tbody>
     </table>
@@ -1129,25 +582,36 @@ helferSelect.addEventListener('change', () => {
 
 const valueLabelPlugin = {
     id: 'valueLabel',
+
     afterDatasetsDraw(chart) {
         if (chart.config.type !== 'bar') return;
 
         const { ctx } = chart;
+
         chart.data.datasets.forEach((dataset, datasetIndex) => {
             const meta = chart.getDatasetMeta(datasetIndex);
 
             meta.data.forEach((bar, index) => {
+                const value = Number(dataset.data[index]) || 0;
+
                 ctx.save();
                 ctx.fillStyle = '#333';
                 ctx.font = '600 11px -apple-system, sans-serif';
                 ctx.textBaseline = 'middle';
                 ctx.textAlign = 'left';
-                ctx.fillText(fmtEUR(dataset.data[index]), bar.x + 6, bar.y);
+
+                ctx.fillText(
+                    `${fmtNumber(value)}x`,
+                    bar.x + 6,
+                    bar.y
+                );
+
                 ctx.restore();
             });
         });
     }
 };
+
 Chart.register(valueLabelPlugin);
 
 pdfBtn.addEventListener('click', exportPDF);
@@ -1314,16 +778,87 @@ function populateHelferSelect(kellnerRows) {
     console.log('Automatisch gewählt:', helferName);
 }
 
+function buildTagesvergleich(rows) {
+
+    const map = new Map();
+
+    rows.forEach(row => {
+
+        if (!row.erstellt) return;
+        if (isStornoRow(row)) return;
+        if (isTransferComment(row.joinedComment)) return;
+
+        const festTag = new Date(row.erstellt);
+
+        // Alles zwischen 00:00 und 05:59
+        // zählt noch zum vorherigen Festtag
+        if (festTag.getHours() < 6) {
+            festTag.setDate(festTag.getDate() - 1);
+        }
+
+        festTag.setHours(0, 0, 0, 0);
+
+        const key = festTag.getTime();
+
+        if (!map.has(key)) {
+            map.set(key, {
+                datum: new Date(festTag),
+
+                // Kennzahlen
+                umsatz: 0,
+                artikel: 0,
+
+                // Dynamische Stationen
+                stationen: {}
+            });
+        }
+
+        const day = map.get(key);
+
+        const menge = Number(row.anzahl) || 0;
+        const umsatz = Number(row.total) || 0;
+
+        day.artikel += menge;
+        day.umsatz += umsatz;
+
+        const station =
+            (row.station || 'Unbekannt').trim();
+
+        if (!day.stationen[station]) {
+            day.stationen[station] = 0;
+        }
+
+        day.stationen[station] += menge;
+    });
+
+    return Array.from(map.values())
+        .sort((a, b) => a.datum - b.datum);
+}
+
 function recalcAndRender() {
     if (!lastParsedSheets) return;
 
     const { produktRows, produktKellnerRows, kellnerRows, gesamtRows } = lastParsedSheets;
-
     const articleCombinedRows = buildArticleCombinedRows(produktKellnerRows);
     const stationData = buildStationDataFromCombined(articleCombinedRows);
-    const topArtikelByUmsatz = [...articleCombinedRows]
-        .filter(row => row.umsatz > 0)
-        .sort((a, b) => b.umsatz - a.umsatz);
+    const topArtikelByMenge = [...articleCombinedRows]
+    .filter(row =>
+        (row.verbrauchGaeste + row.verbrauchHelfer) > 0
+    )
+    .sort((a, b) => {
+        const mengeA =
+            (Number(a.verbrauchGaeste) || 0) +
+            (Number(a.verbrauchHelfer) || 0);
+
+        const mengeB =
+            (Number(b.verbrauchGaeste) || 0) +
+            (Number(b.verbrauchHelfer) || 0);
+
+        return (
+            mengeB - mengeA ||
+            b.umsatz - a.umsatz
+        );
+    });
     const overviewGroups = buildOverviewGroupsFromCombined(articleCombinedRows);
 
     const summary = buildSummary({
@@ -1338,12 +873,13 @@ function recalcAndRender() {
     const sonderwuensche = buildSonderwuensche(gesamtRows);
     const preisliste = buildPreisliste(produktRows);
     const interneKonten = buildInterneKonten(kellnerRows);
+    const tagesvergleich = buildTagesvergleich(gesamtRows);
 
 
     updateHeader(gesamtRows);
     updateCards(summary);
     createStationChart(stationData);
-    createTopArtikelChart(topArtikelByUmsatz);
+    createTopArtikelChart(topArtikelByMenge);
     createZeitChart(stosszeiten);
     createKellnerTable(kellnerRows);
     createOverviewTables(overviewGroups);
@@ -1355,13 +891,14 @@ function recalcAndRender() {
         subtitle: document.getElementById('dashSubtitle').textContent,
         summary,
         stationData,
-        topArtikelByUmsatz,
+        topArtikelByMenge,
         kellnerRows,
         interneKonten,
         overviewGroups,
         stosszeiten,
         sonderwuensche,
-        preisliste
+        preisliste,
+        tagesvergleich
     };
 
     pdfBtn.style.display = 'inline-block';
@@ -1444,13 +981,25 @@ function buildStationDataFromCombined(rows) {
     const stationMap = new Map();
 
     rows.forEach(row => {
-        const data = stationMap.get(row.station) || { station: row.station, umsatz: 0, kostenHelfer: 0 };
+
+        const data = stationMap.get(row.station) || {
+            station: row.station,
+            umsatz: 0,
+            kostenHelfer: 0,
+            verbrauchHelfer: 0
+        };
+
         data.umsatz += row.umsatz;
         data.kostenHelfer += row.kostenHelfer;
+
+        // NEU
+        data.verbrauchHelfer += row.verbrauchHelfer;
+
         stationMap.set(row.station, data);
     });
 
-    return Array.from(stationMap.values()).sort((a, b) => b.umsatz - a.umsatz);
+    return Array.from(stationMap.values())
+        .sort((a, b) => b.umsatz - a.umsatz);
 }
 
 function buildOverviewGroupsFromCombined(rows) {
@@ -1617,15 +1166,26 @@ function buildStosszeiten(rows) {
 
     rows.forEach(row => {
         if (!row.erstellt) return;
+        if (!row.station) return;
         if (isStornoRow(row)) return;
         if (isTransferComment(row.joinedComment)) return;
+
+        // Auf 30-Minuten-Zeitfenster abrunden
+        const minuteBucket =
+            row.erstellt.getMinutes() < 30
+                ? 0
+                : 30;
 
         const bucket = new Date(
             row.erstellt.getFullYear(),
             row.erstellt.getMonth(),
             row.erstellt.getDate(),
-            row.erstellt.getHours()
+            row.erstellt.getHours(),
+            minuteBucket,
+            0,
+            0
         );
+
         const key = bucket.getTime();
 
         if (!map.has(key)) {
@@ -1635,14 +1195,27 @@ function buildStosszeiten(rows) {
                     hour: '2-digit',
                     minute: '2-digit'
                 }),
-                total: 0
+                stationen: {}
             });
         }
 
-        map.get(key).total += row.total;
+        const entry = map.get(key);
+        const station = row.station.trim();
+
+        // Pro Station Anzahl und Umsatz speichern
+        if (!entry.stationen[station]) {
+            entry.stationen[station] = {
+                anzahl: 0,
+                umsatz: 0
+            };
+        }
+
+        entry.stationen[station].anzahl += Number(row.anzahl) || 0;
+        entry.stationen[station].umsatz += Number(row.total) || 0;
     });
 
-    return Array.from(map.values()).sort((a, b) => a.ts - b.ts);
+    return Array.from(map.values())
+        .sort((a, b) => a.ts - b.ts);
 }
 
 function buildSonderwuensche(rows) {
@@ -1818,94 +1391,332 @@ function createStationChart(stationData) {
 }
 
 function createTopArtikelChart(rows) {
-    if (topArtikelChart) topArtikelChart.destroy();
+    if (topArtikelChart) {
+        topArtikelChart.destroy();
+        topArtikelChart = null;
+    }
 
-    const top10 = rows.slice(0, 10);
-    const maxValue = Math.max(...top10.map(row => row.umsatz), 0);
+    const top10 = (rows || []).slice(0, 10);
 
-    topArtikelChart = new Chart(document.getElementById('topArtikelChart'), {
-        type: 'bar',
-        data: {
-            labels: top10.map(row => row.bonText),
-            datasets: [{
-                label: 'Umsatz Gesamt €',
-                data: top10.map(row => row.umsatz),
-                backgroundColor: '#b8860b',
-                borderRadius: 6,
-                borderSkipped: false
-            }]
-        },
-        options: {
-            indexAxis: 'y',
-            responsive: true,
-            plugins: {
-                legend: {
-                    display: false
-                }
+    const gesamtMenge = row =>
+        (Number(row.verbrauchGaeste) || 0) +
+        (Number(row.verbrauchHelfer) || 0);
+
+    const maxValue = Math.max(
+        ...top10.map(row => gesamtMenge(row)),
+        0
+    );
+
+    topArtikelChart = new Chart(
+        document.getElementById('topArtikelChart'),
+        {
+            type: 'bar',
+
+            data: {
+                labels: top10.map(row => row.bonText),
+
+                datasets: [{
+                    label: 'Gesamtverbrauch',
+                    data: top10.map(row => gesamtMenge(row)),
+                    backgroundColor: '#b8860b',
+                    borderRadius: 6,
+                    borderSkipped: false
+                }]
             },
-            layout: {
-                padding: {
-                    right: 60
-                }
-            },
-            scales: {
-                x: {
-                    beginAtZero: true,
-                    suggestedMax: maxValue * 1.25
-                },
-                y: {
-                    grid: {
+
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+
+                plugins: {
+                    legend: {
                         display: false
+                    },
+
+                    tooltip: {
+                        callbacks: {
+                            label(context) {
+                                const row = top10[context.dataIndex];
+
+                                const gaeste =
+                                    Number(row.verbrauchGaeste) || 0;
+
+                                const helfer =
+                                    Number(row.verbrauchHelfer) || 0;
+
+                                return [
+                                    `Gesamt: ${fmtNumber(gaeste + helfer)} Stück`,
+                                    `Gäste: ${fmtNumber(gaeste)} Stück`,
+                                    `Helfer: ${fmtNumber(helfer)} Stück`,
+                                    `Gästeumsatz: ${fmtEUR(row.umsatz)}`
+                                ];
+                            }
+                        }
+                    }
+                },
+
+                layout: {
+                    padding: {
+                        right: 65
+                    }
+                },
+
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        suggestedMax: maxValue > 0
+                            ? maxValue * 1.25
+                            : 1,
+
+                        ticks: {
+                            precision: 0,
+                            callback(value) {
+                                return fmtNumber(value);
+                            }
+                        },
+
+                        title: {
+                            display: true,
+                            text: 'Gesamtverbrauch in Stück'
+                        }
+                    },
+
+                    y: {
+                        grid: {
+                            display: false
+                        }
                     }
                 }
             }
         }
-    });
+    );
 }
 
 function createZeitChart(rows) {
-    if (zeitChart) zeitChart.destroy();
-
-    let peakIndex = 0;
-    rows.forEach((row, index) => {
-        if (row.total > rows[peakIndex]?.total) peakIndex = index;
-    });
-
-    if (rows.length) {
-        document.getElementById('stosszeitNote').textContent = `Stoßzeit: ${rows[peakIndex].label} Uhr · ${fmtEUR(rows[peakIndex].total)}`;
-    } else {
-        document.getElementById('stosszeitNote').textContent = '';
+    if (zeitChart) {
+        zeitChart.destroy();
+        zeitChart = null;
     }
 
-    zeitChart = new Chart(document.getElementById('zeitChart'), {
+    const noteElement = document.getElementById('stosszeitNote');
+    const canvas = document.getElementById('zeitChart');
+
+    if (!canvas) {
+        console.error('Canvas #zeitChart wurde nicht gefunden.');
+        return;
+    }
+
+    if (!rows || !rows.length) {
+        noteElement.textContent = '';
+        return;
+    }
+
+    // Alle vorkommenden Stationen ermitteln
+    const stationNames = [
+        ...new Set(
+            rows.flatMap(row =>
+                Object.keys(row.stationen || {})
+            )
+        )
+    ];
+
+    if (!stationNames.length) {
+        noteElement.textContent = 'Keine Stoßzeitendaten vorhanden.';
+        return;
+    }
+
+    // Gesamtspitze über alle Stationen bestimmen
+    let peakLabel = '';
+    let peakAnzahl = 0;
+    let peakUmsatz = 0;
+
+    rows.forEach(row => {
+        const stationsDaten = Object.values(row.stationen || {});
+
+        const anzahlGesamt = stationsDaten.reduce(
+            (sum, daten) => sum + (Number(daten.anzahl) || 0),
+            0
+        );
+
+        const umsatzGesamt = stationsDaten.reduce(
+            (sum, daten) => sum + (Number(daten.umsatz) || 0),
+            0
+        );
+
+        if (anzahlGesamt > peakAnzahl) {
+            peakAnzahl = anzahlGesamt;
+            peakUmsatz = umsatzGesamt;
+            peakLabel = row.label;
+        }
+    });
+
+    noteElement.textContent = peakLabel
+        ? `Stoßzeit: ${peakLabel} Uhr · ${fmtNumber(peakAnzahl)} Artikel · ${fmtEUR(peakUmsatz)}`
+        : '';
+
+    const colors = [
+        '#b8860b',
+        '#3b82f6',
+        '#10b981',
+        '#ef4444',
+        '#8b5cf6',
+        '#f97316',
+        '#14b8a6',
+        '#d4a843'
+    ];
+
+    const datasets = stationNames.map((station, index) => {
+        const color = colors[index % colors.length];
+
+        return {
+            label: station,
+
+            // Hier muss .anzahl verwendet werden.
+            // Vorher wurde das komplette Objekt übergeben.
+            data: rows.map(row =>
+                Number(row.stationen?.[station]?.anzahl) || 0
+            ),
+
+            borderColor: color,
+            backgroundColor: color,
+            pointBackgroundColor: color,
+            pointBorderColor: '#ffffff',
+            pointBorderWidth: 1.5,
+            pointRadius: 3,
+            pointHoverRadius: 6,
+            borderWidth: 2.5,
+            fill: false,
+            tension: 0.3,
+            spanGaps: true
+        };
+    });
+
+    zeitChart = new Chart(canvas, {
         type: 'line',
+
         data: {
             labels: rows.map(row => row.label),
-            datasets: [{
-                label: 'Umsatz €',
-                data: rows.map(row => row.total),
-                borderColor: '#b8860b',
-                backgroundColor: 'rgba(184, 134, 11, 0.12)',
-                fill: true,
-                tension: 0.3,
-                pointRadius: rows.map((_, index) => index === peakIndex ? 6 : 3),
-                pointBackgroundColor: rows.map((_, index) => index === peakIndex ? '#a33' : '#b8860b')
-            }]
+            datasets
         },
+
         options: {
             responsive: true,
+            maintainAspectRatio: true,
+            interaction: {
+                mode: 'index',
+                intersect: false
+            },
+
             plugins: {
                 legend: {
-                    display: false
+                    display: true,
+                    position: 'top',
+                    labels: {
+                        usePointStyle: true,
+                        pointStyle: 'circle',
+                        padding: 18,
+                        font: {
+                            size: 12,
+                            weight: '600'
+                        }
+                    }
+                },
+
+                tooltip: {
+                    mode: 'index',
+                    intersect: false,
+
+                    callbacks: {
+                        title(contexts) {
+                            if (!contexts.length) return '';
+                            return `${contexts[0].label} Uhr`;
+                        },
+
+                        label(context) {
+                            const station = context.dataset.label;
+                            const row = rows[context.dataIndex];
+
+                            const daten = row.stationen?.[station] || {
+                                anzahl: 0,
+                                umsatz: 0
+                            };
+
+                            return [
+                                `${station}:`,
+                                `  Artikel: ${fmtNumber(daten.anzahl)}`,
+                                `  Umsatz: ${fmtEUR(daten.umsatz)}`
+                            ];
+                        },
+
+                        footer(contexts) {
+                            if (!contexts.length) return '';
+
+                            const row = rows[contexts[0].dataIndex];
+
+                            const gesamtAnzahl = Object.values(
+                                row.stationen || {}
+                            ).reduce(
+                                (sum, daten) =>
+                                    sum + (Number(daten.anzahl) || 0),
+                                0
+                            );
+
+                            const gesamtUmsatz = Object.values(
+                                row.stationen || {}
+                            ).reduce(
+                                (sum, daten) =>
+                                    sum + (Number(daten.umsatz) || 0),
+                                0
+                            );
+
+                            return [
+                                '',
+                                `Gesamt: ${fmtNumber(gesamtAnzahl)} Artikel`,
+                                `Gesamtumsatz: ${fmtEUR(gesamtUmsatz)}`
+                            ];
+                        }
+                    }
                 }
             },
+
             scales: {
                 y: {
-                    beginAtZero: true
+                    beginAtZero: true,
+                    suggestedMin: 0,
+
+                    ticks: {
+                        precision: 0,
+                        callback(value) {
+                            return fmtNumber(value);
+                        }
+                    },
+
+                    title: {
+                        display: true,
+                        text: 'Artikelanzahl'
+                    },
+
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.06)'
+                    }
                 },
+
                 x: {
+                    title: {
+                        display: true,
+                        text: 'Uhrzeit'
+                    },
+
                     grid: {
                         display: false
+                    },
+
+                    ticks: {
+                        maxRotation: 45,
+                        minRotation: 0,
+                        autoSkip: true,
+                        maxTicksLimit: 20
                     }
                 }
             }
@@ -1936,7 +1747,7 @@ function createKellnerTable(rows) {
                 <th>Kellner</th>
                 <th>Bestellungen</th>
                 <th>Einnahmen</th>
-                <th>EIngelöste Gutscheíne</th>
+                <th>Eingelöste Gutscheíne</th>
                 <th>Total</th>
             </tr>
         </thead>
@@ -2055,25 +1866,81 @@ function exportPDF() {
         pdf.addPage();
         addPdfAnalysisPage(pdf, lastStats, pageWidth, pageHeight);
 
-        // Ab Seite 3 folgen nur noch die Detailtabellen.
-        lastStats.overviewGroups.forEach(([groupName, rows]) => {
-            addPdfTablePage(
-                pdf,
-                groupName,
-                ['#', 'Artikel', 'Verbrauch', 'Umsatz'],
-                rows.map((row, index) => [
-                    index + 1,
-                    row.bonText,
-                    fmtNumber(row.verbrauchGaeste + row.verbrauchHelfer),
-                    fmtEUR(row.umsatz)
-                ]),
-                {
-                    0: { halign: 'center', cellWidth: 12 },
-                    2: { halign: 'right', cellWidth: 28 },
-                    3: { halign: 'right', cellWidth: 34 }
+pdf.addPage();
+
+const stationTableStartY = 22;
+const stationTableGap = 8;
+const stationTableBottomLimit = pageHeight - 18;
+
+function estimateStationTableHeight(rows) {
+    return (
+        20 +
+        rows.length * 6.2
+    );
+}
+
+let currentStationY = stationTableStartY;
+
+lastStats.overviewGroups.forEach(
+    ([groupName, rows], index) => {
+
+        const estimatedHeight =
+            estimateStationTableHeight(rows);
+
+        const availableHeight =
+            stationTableBottomLimit -
+            currentStationY;
+
+        if (
+            index > 0 &&
+            estimatedHeight > availableHeight
+        ) {
+            pdf.addPage();
+            currentStationY =
+                stationTableStartY;
+        }
+
+        addPdfTableSection(
+            pdf,
+            groupName,
+            ['#', 'Artikel', 'Verbrauch', 'Umsatz'],
+
+            rows.map((row, i) => [
+                i + 1,
+                row.bonText,
+                fmtNumber(
+                    row.verbrauchGaeste +
+                    row.verbrauchHelfer
+                ),
+                fmtEUR(row.umsatz)
+            ]),
+
+            {
+                0: {
+                    halign: 'center',
+                    cellWidth: 12
+                },
+
+                2: {
+                    halign: 'right',
+                    cellWidth: 28
+                },
+
+                3: {
+                    halign: 'right',
+                    cellWidth: 34
                 }
-            );
-        });
+            },
+
+            currentStationY,
+            false
+        );
+
+        currentStationY =
+            pdf.lastAutoTable.finalY +
+            stationTableGap;
+    }
+);
 
         const gaesteKellner = lastStats.kellnerRows
             .filter(row => !isInternalAccount(row.name))
@@ -2153,27 +2020,75 @@ function addPdfExecutivePage(pdf, stats, pageWidth, pageHeight) {
         pageWidth
     );
 
-    // Vier klar getrennte Kennzahlen statt mehrfacher Zusammenfassungen.
+    /*
+        ================================================================
+        KPI-KARTEN
+        Umsatz Gesamt + Top 3 Stationen
+        ================================================================
+    */
+
     const cardGap = 6;
     const cardWidth = (contentWidth - cardGap) / 2;
     const cardHeight = 25;
     const firstCardY = 48;
 
-    drawPdfKpiCard(pdf, margin, firstCardY, cardWidth, cardHeight,
-        'UMSATZ GESAMT', fmtEUR(stats.summary.umsatzGesamt),
-        ' ', [40, 125, 60]);
+    const topStation1 = stats.stationData?.[0] || null;
+    const topStation2 = stats.stationData?.[1] || null;
+    const topStation3 = stats.stationData?.[2] || null;
 
-    drawPdfKpiCard(pdf, margin + cardWidth + cardGap, firstCardY, cardWidth, cardHeight,
-        'HELFERKOSTEN', fmtEUR(stats.summary.helferKosten),
-        ' ', [166, 51, 51]);
+    drawPdfKpiCard(
+        pdf,
+        margin,
+        firstCardY,
+        cardWidth,
+        cardHeight,
+        'UMSATZ GESAMT',
+        fmtEUR(stats.summary.umsatzGesamt),
+        'Umsatz ohne Helferverbrauch',
+        [40, 125, 60]
+    );
 
-    drawPdfKpiCard(pdf, margin, firstCardY + cardHeight + cardGap, cardWidth, cardHeight,
-        'GETRÄNKE', fmtEUR(stats.summary.umsatzGetraenke),
-        `Helfer: ${fmtEUR(stats.summary.helferGetraenke)}`, [184, 134, 11]);
+    drawPdfKpiCard(
+        pdf,
+        margin + cardWidth + cardGap,
+        firstCardY,
+        cardWidth,
+        cardHeight,
+        topStation1 ? topStation1.station.toUpperCase() : 'TOP STATION 1',
+        topStation1 ? fmtEUR(topStation1.umsatz) : '-',
+        topStation1 ? 'Umsatz ohne Helferverbrauch' : 'Keine Station vorhanden',
+        [184, 134, 11]
+    );
 
-    drawPdfKpiCard(pdf, margin + cardWidth + cardGap, firstCardY + cardHeight + cardGap, cardWidth, cardHeight,
-        'SPEISEN', fmtEUR(stats.summary.umsatzSpeisen),
-        `Helfer: ${fmtEUR(stats.summary.helferSpeisen)}`, [212, 168, 67]);
+    drawPdfKpiCard(
+        pdf,
+        margin,
+        firstCardY + cardHeight + cardGap,
+        cardWidth,
+        cardHeight,
+        topStation2 ? topStation2.station.toUpperCase() : 'TOP STATION 2',
+        topStation2 ? fmtEUR(topStation2.umsatz) : '-',
+        topStation2 ? 'Umsatz ohne Helferverbrauch' : 'Keine weitere Station',
+        [212, 168, 67]
+    );
+
+    drawPdfKpiCard(
+        pdf,
+        margin + cardWidth + cardGap,
+        firstCardY + cardHeight + cardGap,
+        cardWidth,
+        cardHeight,
+        topStation3 ? topStation3.station.toUpperCase() : 'TOP STATION 3',
+        topStation3 ? fmtEUR(topStation3.umsatz) : '-',
+        topStation3 ? 'Umsatz ohne Helferverbrauch' : 'Keine weitere Station',
+        [160, 120, 40]
+    );
+
+    /*
+        ================================================================
+        DIAGRAMME
+        ================================================================
+    */
 
     const sectionY = 111;
     const leftWidth = 104;
@@ -2181,174 +2096,335 @@ function addPdfExecutivePage(pdf, stats, pageWidth, pageHeight) {
     const rightWidth = pageWidth - margin - rightX;
     const panelHeight = 122;
 
-    drawPdfPanel(pdf, margin, sectionY, leftWidth, panelHeight, 'Umsatz nach Station');
-    drawPdfPanel(pdf, rightX, sectionY, rightWidth, panelHeight, 'Top 5 Artikel nach Umsatz');
+    drawPdfPanel(
+        pdf,
+        margin,
+        sectionY,
+        leftWidth,
+        panelHeight,
+        'Umsatz nach Station'
+    );
 
-    // Echtes Chart.js-Diagramm aus dem Dashboard.
-    addPdfChartImage(pdf, 'stationChart', margin + 10, sectionY + 16, leftWidth - 20, 67);
+    drawPdfPanel(
+        pdf,
+        rightX,
+        sectionY,
+        rightWidth,
+        panelHeight,
+        'Top 5 Artikel nach Menge'
+    );
 
-    const stationTotal = stats.stationData.reduce((total, row) => total + row.umsatz, 0);
+    /*
+        Stationsdiagramm
+    */
+
+    addPdfChartImage(
+        pdf,
+        'stationChart',
+        margin + 10,
+        sectionY + 16,
+        leftWidth - 20,
+        67
+    );
+
+    const stationTotal = stats.stationData.reduce(
+        (total, row) => total + row.umsatz,
+        0
+    );
+
     stats.stationData.slice(0, 5).forEach((stationRow, index) => {
         const station = stationRow.station;
         const value = stationRow.umsatz;
         const rowY = sectionY + 91 + index * 6;
-        const color = hexToRgb(stationColors[index % stationColors.length]);
+        const color = hexToRgb(
+            stationColors[index % stationColors.length]
+        );
+
         pdf.setFillColor(...color);
         pdf.circle(margin + 9, rowY - 1.2, 1.4, 'F');
+
         pdf.setFont('helvetica', 'normal');
         pdf.setFontSize(7.3);
         pdf.setTextColor(65, 65, 65);
-        pdf.text(fitPdfText(pdf, station, 37), margin + 13, rowY);
+        pdf.text(
+            fitPdfText(pdf, station, 37),
+            margin + 13,
+            rowY
+        );
+
         pdf.setFont('helvetica', 'bold');
         pdf.setTextColor(35, 35, 35);
-        pdf.text(fmtEUR(value), margin + leftWidth - 7, rowY, { align: 'right' });
+        pdf.text(
+            fmtEUR(value),
+            margin + leftWidth - 7,
+            rowY,
+            { align: 'right' }
+        );
+
+        const percentage = stationTotal
+            ? value / stationTotal * 100
+            : 0;
+
         pdf.setFont('helvetica', 'normal');
         pdf.setFontSize(6.5);
         pdf.setTextColor(135, 135, 135);
-        const pct = stationTotal ? value / stationTotal * 100 : 0;
-        pdf.text(`${pct.toFixed(1)} %`, margin + leftWidth - 7, rowY + 3.4, { align: 'right' });
+        pdf.text(
+            `${percentage.toFixed(1)} %`,
+            margin + leftWidth - 7,
+            rowY + 3.4,
+            { align: 'right' }
+        );
     });
 
-    const top5 = stats.topArtikelByUmsatz.slice(0, 5);
-    const topMax = Math.max(...top5.map(row => row.umsatz), 1);
-    top5.forEach((row, index) => {
-        const rowTop = sectionY + 19 + index * 19;
-        const numberX = rightX + 7;
-        const valueX = rightX + rightWidth - 7;
-        const barX = rightX + 17;
-        const barWidthMax = rightWidth - 31;
-        const barWidth = barWidthMax * row.umsatz / topMax;
+    /*
+        Top-5-Artikel
+    */
 
-        pdf.setFillColor(245, 245, 245);
-        pdf.circle(numberX + 2.5, rowTop + 2.4, 3.2, 'F');
-        pdf.setFont('helvetica', 'bold');
-        pdf.setFontSize(7);
-        pdf.setTextColor(115, 91, 34);
-        pdf.text(String(index + 1), numberX + 2.5, rowTop + 3.2, { align: 'center' });
+    /*
+    ================================================================
+    TOP 5 ARTIKEL NACH GESAMTVERBRAUCH
+    Gästeverbrauch + Helferverbrauch
+    ================================================================
+*/
 
-        pdf.setFont('helvetica', 'bold');
-        pdf.setFontSize(8.2);
-        pdf.setTextColor(45, 45, 45);
-        pdf.text(fitPdfText(pdf, row.bonText, rightWidth - 48), barX, rowTop + 2.3);
+const getArtikelGesamtmenge = row =>
+    (Number(row.verbrauchGaeste) || 0) +
+    (Number(row.verbrauchHelfer) || 0);
 
-        pdf.setFontSize(7.7);
-        pdf.setTextColor(184, 134, 11);
-        pdf.text(fmtEUR(row.umsatz), valueX, rowTop + 2.3, { align: 'right' });
+const top5 = (stats.topArtikelByMenge || [])
+    .slice(0, 5);
 
-        pdf.setFillColor(239, 239, 239);
-        pdf.roundedRect(barX, rowTop + 6, barWidthMax, 3.2, 1.2, 1.2, 'F');
-        pdf.setFillColor(184, 134, 11);
-        pdf.roundedRect(barX, rowTop + 6, Math.max(barWidth, 1.2), 3.2, 1.2, 1.2, 'F');
+const topMax = Math.max(
+    ...top5.map(row => getArtikelGesamtmenge(row)),
+    1
+);
 
-        pdf.setFont('helvetica', 'normal');
-        pdf.setFontSize(6.6);
-        pdf.setTextColor(130, 130, 130);
-        pdf.text(`${fmtNumber(row.verbrauchGaeste + row.verbrauchHelfer)} Stück`, barX, rowTop + 13.5);
+top5.forEach((row, index) => {
+    const menge = getArtikelGesamtmenge(row);
+
+    const rowTop = sectionY + 19 + index * 19;
+    const numberX = rightX + 7;
+    const valueX = rightX + rightWidth - 7;
+    const barX = rightX + 17;
+    const barWidthMax = rightWidth - 31;
+
+    const barWidth =
+        barWidthMax * menge / topMax;
+
+    // Rangkreis
+    pdf.setFillColor(245, 245, 245);
+
+    pdf.circle(
+        numberX + 2.5,
+        rowTop + 2.4,
+        3.2,
+        'F'
+    );
+
+    pdf.setFont('helvetica', 'bold');
+    pdf.setFontSize(7);
+    pdf.setTextColor(115, 91, 34);
+
+    pdf.text(
+        String(index + 1),
+        numberX + 2.5,
+        rowTop + 3.2,
+        { align: 'center' }
+    );
+
+    // Artikelname
+    pdf.setFont('helvetica', 'bold');
+    pdf.setFontSize(8.2);
+    pdf.setTextColor(45, 45, 45);
+
+    pdf.text(
+        fitPdfText(
+            pdf,
+            row.bonText,
+            rightWidth - 48
+        ),
+        barX,
+        rowTop + 2.3
+    );
+
+    // Gesamtmenge rechts
+    pdf.setFontSize(7.7);
+    pdf.setTextColor(184, 134, 11);
+
+    pdf.text(
+        `${fmtNumber(menge)}x`,
+        valueX,
+        rowTop + 2.3,
+        { align: 'right' }
+    );
+
+    // Grauer Hintergrundbalken
+    pdf.setFillColor(239, 239, 239);
+
+    pdf.roundedRect(
+        barX,
+        rowTop + 6,
+        barWidthMax,
+        3.2,
+        1.2,
+        1.2,
+        'F'
+    );
+
+    // Mengenbalken
+    pdf.setFillColor(184, 134, 11);
+
+    pdf.roundedRect(
+        barX,
+        rowTop + 6,
+        Math.max(barWidth, 1.2),
+        3.2,
+        1.2,
+        1.2,
+        'F'
+    );
+
+    // Detailzeile
+    pdf.setFont('helvetica', 'normal');
+    pdf.setFontSize(6.2);
+    pdf.setTextColor(130, 130, 130);
+
+    const detailText =
+        `${fmtEUR(row.umsatz)} Umsatz`;
+
+    pdf.text(
+        fitPdfText(
+            pdf,
+            detailText,
+            rightWidth - 31
+        ),
+        barX,
+        rowTop + 13.5
+    );
+});
+
+    /*
+        ================================================================
+        GUTSCHEINE & HELFERVERBRAUCH
+        Ersetzt den alten Helfer- und Top-5-Kellner-Block
+        ================================================================
+    */
+
+    /*
+    ================================================================
+    HELFERVERBRAUCH NACH ALLEN VORHANDENEN STATIONEN
+    Automatisch aus stats.stationData
+    ================================================================
+*/
+
+const helperRows = (stats.stationData || [])
+    .filter(row => Math.abs(Number(row.kostenHelfer) || 0) > 0);
+
+const helperTotal = helperRows.reduce(
+    (sum, row) => sum + (Number(row.kostenHelfer) || 0),
+    0
+);
+
+if (helperRows.length > 0) {
+    const helperPanelY = 240;
+    const helperPanelHeight = 37;
+
+    drawPdfPanel(
+        pdf,
+        margin,
+        helperPanelY,
+        contentWidth,
+        helperPanelHeight,
+        'Gutscheine & Helferverbrauch'
+    );
+
+    /*
+        Alle Stationen plus eine Gesamtkarte.
+        Bei drei Stationen werden also drei Stationswerte
+        und zusätzlich der Gesamtwert angezeigt.
+    */
+
+    const helperItems = [
+    ...helperRows.map((row, index) => ({
+        label: row.station,
+        value: row.kostenHelfer,
+        color: hexToRgb(
+            stationColors[index % stationColors.length]
+        ),
+        note: `${fmtNumber(row.verbrauchHelfer)} Artikel`
+    })),
+    {
+        label: 'Gesamt Verbrauch',
+        value: helperTotal,
+        color: [166, 51, 51],
+        note: 'nicht im Umsatz enthalten'
+    }
+];
+
+    const helperGap = 4;
+    const helperStartX = margin + 6;
+    const helperAvailableWidth = contentWidth - 12;
+
+    const helperCardWidth =
+        (
+            helperAvailableWidth -
+            helperGap * (helperItems.length - 1)
+        ) / helperItems.length;
+
+    helperItems.forEach((item, index) => {
+        const cardX =
+            helperStartX +
+            index * (helperCardWidth + helperGap);
+
+        drawPdfCompactHelperCard(
+            pdf,
+            cardX,
+            helperPanelY + 16,
+            helperCardWidth,
+            16,
+            item.label,
+            fmtEUR(item.value),
+            item.note,
+            item.color
+        );
     });
-
+}
 
 }
 
-function addPdfAnalysisPage(pdf, stats, pageWidth, pageHeight) {
-    const margin = 14;
-    const contentWidth = pageWidth - margin * 2;
+function formatZeitfenster(label) {
+    if (!label || !label.includes(':')) {
+        return label || '-';
+    }
 
-    drawPdfPageHeader(
-    pdf,
-    'ANALYSE',
-    ' ',
-    stats.title || 'Orderman Export Auswertung',
-    stats.subtitle || 'Excel-Export ausgewertet',
-    pageWidth
-);
+    const [hour, minute] = label
+        .split(':')
+        .map(Number);
 
-    drawPdfPanel(pdf, margin, 48, contentWidth, 104, 'Stoßzeiten und Umsatzverlauf');
-    addPdfChartImage(pdf, 'zeitChart', margin + 6, 62, contentWidth - 12, 77);
-
-    const times = stats.stosszeiten || [];
-    const peak = times.length
-        ? times.reduce((best, row) => row.total > best.total ? row : best, times[0])
-        : null;
-
-    const bestellungen = stats.kellnerRows.reduce(
-        (sum, row) => sum + row.bestellungen,
+    const start = new Date(
+        2000,
+        0,
+        1,
+        hour,
+        minute,
+        0,
         0
     );
 
+    const end = new Date(start);
+    end.setMinutes(end.getMinutes() + 30);
 
-    const totalTimeRevenue = times.reduce((sum, row) => sum + row.total, 0);
-    const average = times.length ? totalTimeRevenue / times.length : 0;
-
-    const metricY = 158;
-    const metricGap = 5;
-    const metricWidth = (contentWidth - metricGap * 2) / 3;
-    drawPdfSmallMetricCard(pdf, margin, metricY, metricWidth, 23,
-        'STÄRKSTE STUNDE', peak ? `${peak.label} Uhr` : '-',
-        peak ? fmtEUR(peak.total) : 'Keine Daten');
-    drawPdfSmallMetricCard(pdf, margin + metricWidth + metricGap, metricY, metricWidth, 23,
-        'DURCHSCHNITT / STUNDE', fmtEUR(average),
-        `${fmtNumber(times.length)} Zeitabschnitte`);
-    drawPdfSmallMetricCard(
-        pdf,
-        margin + (metricWidth + metricGap) * 2,
-        metricY,
-        metricWidth,
-        23,
-        'BESTELLUNGEN',
-        fmtNumber(bestellungen),
-        'gesamt'
-    );
-
-    const lowerY = 189;
-    const leftWidth = 90;
-    const rightX = margin + leftWidth + 7;
-    const rightWidth = pageWidth - margin - rightX;
-    const lowerHeight = 73;
-
-    drawPdfPanel(pdf, margin, lowerY, leftWidth, lowerHeight, 'Helferverbrauch');
-    drawPdfPanel(pdf, rightX, lowerY, rightWidth, lowerHeight, 'Top 5 Kellner nach Total');
-
-    const helperRows = [
-        ['Getränke', stats.summary.helferGetraenke, [184, 134, 11]],
-        ['Speisen', stats.summary.helferSpeisen, [212, 168, 67]]
-    ];
-    const helperMax = Math.max(...helperRows.map(row => row[1]), 1);
-    helperRows.forEach((row, index) => {
-        const rowY = lowerY + 22 + index * 23;
-        pdf.setFont('helvetica', 'bold');
-        pdf.setFontSize(8);
-        pdf.setTextColor(55, 55, 55);
-        pdf.text(row[0], margin + 7, rowY);
-        pdf.setTextColor(...row[2]);
-        pdf.text(fmtEUR(row[1]), margin + leftWidth - 7, rowY, { align: 'right' });
-        pdf.setFillColor(239, 239, 239);
-        pdf.roundedRect(margin + 7, rowY + 5, leftWidth - 14, 5, 1.5, 1.5, 'F');
-        pdf.setFillColor(...row[2]);
-        pdf.roundedRect(margin + 7, rowY + 5,
-            Math.max((leftWidth - 14) * row[1] / helperMax, 1.5), 5, 1.5, 1.5, 'F');
+    const startText = start.toLocaleTimeString('de-DE', {
+        hour: '2-digit',
+        minute: '2-digit'
     });
 
-    const topKellner = stats.kellnerRows
-        .filter(row => !isInternalAccount(row.name))
-        .sort((a, b) => b.total - a.total)
-        .slice(0, 5);
-    const kellnerMax = Math.max(...topKellner.map(row => row.total), 1);
-    topKellner.forEach((row, index) => {
-        const rowY = lowerY + 19 + index * 10;
-        pdf.setFont('helvetica', 'bold');
-        pdf.setFontSize(7.4);
-        pdf.setTextColor(100, 78, 26);
-        pdf.text(String(index + 1), rightX + 7, rowY);
-        pdf.setTextColor(45, 45, 45);
-        pdf.text(fitPdfText(pdf, row.name, 47), rightX + 13, rowY);
-        pdf.setTextColor(184, 134, 11);
-        pdf.text(fmtEUR(row.total), rightX + rightWidth - 7, rowY, { align: 'right' });
-        pdf.setFillColor(240, 240, 240);
-        pdf.roundedRect(rightX + 13, rowY + 3, rightWidth - 31, 2.3, 0.8, 0.8, 'F');
-        pdf.setFillColor(184, 134, 11);
-        pdf.roundedRect(rightX + 13, rowY + 3,
-            Math.max((rightWidth - 31) * row.total / kellnerMax, 1), 2.3, 0.8, 0.8, 'F');
+    const endText = end.toLocaleTimeString('de-DE', {
+        hour: '2-digit',
+        minute: '2-digit'
     });
+
+    return `${startText} - ${endText} Uhr`;
 }
 
 function drawPdfPageHeader(pdf, eyebrow, section, title, subtitle, pageWidth) {
@@ -2397,6 +2473,283 @@ function drawPdfKpiCard(pdf, x, y, width, height, label, value, note, accent) {
     pdf.setFontSize(6.5);
     pdf.setTextColor(130, 130, 130);
     pdf.text(fitPdfText(pdf, note, width - 16), x + 8, y + 21.5);
+}
+
+function drawPdfCompactHelperCard(
+    pdf,
+    x,
+    y,
+    width,
+    height,
+    label,
+    value,
+    note,
+    accent
+) {
+    pdf.setFillColor(252, 252, 252);
+    pdf.setDrawColor(232, 232, 232);
+    pdf.setLineWidth(0.2);
+
+    pdf.roundedRect(
+        x,
+        y,
+        width,
+        height,
+        2,
+        2,
+        'FD'
+    );
+
+    /*
+        Schmaler Farbstreifen links
+    */
+
+    pdf.setFillColor(...accent);
+    pdf.roundedRect(
+        x,
+        y,
+        2.2,
+        height,
+        1,
+        1,
+        'F'
+    );
+
+    /*
+        Stationsname
+    */
+
+    pdf.setFont('helvetica', 'bold');
+    pdf.setFontSize(6.2);
+    pdf.setTextColor(125, 125, 125);
+
+    pdf.text(
+        fitPdfText(
+            pdf,
+            String(label).toUpperCase(),
+            width - 8
+        ),
+        x + 5,
+        y + 4.5
+    );
+
+    /*
+        Helferverbrauch
+    */
+
+    pdf.setFont('helvetica', 'bold');
+    pdf.setFontSize(9.3);
+    pdf.setTextColor(45, 45, 45);
+
+    pdf.text(
+        fitPdfText(pdf, value, width - 8),
+        x + 5,
+        y + 10.2
+    );
+
+    /*
+        Erklärung
+    */
+
+    pdf.setFont('helvetica', 'normal');
+    pdf.setFontSize(4.8);
+    pdf.setTextColor(140, 140, 140);
+
+    pdf.text(
+        fitPdfText(pdf, note, width - 8),
+        x + 5,
+        y + 14
+    );
+}
+
+function addPdfAnalysisPage(pdf, stats, pageWidth, pageHeight) {
+    const margin = 14;
+    const contentWidth = pageWidth - margin * 2;
+
+    drawPdfPageHeader(
+        pdf,
+        'ANALYSE',
+        'Stoßzeiten & Bestellverlauf',
+        stats.title || 'Orderman Export Auswertung',
+        stats.subtitle || 'Excel-Export ausgewertet',
+        pageWidth
+    );
+
+    /*
+        ================================================================
+        STOSSZEITEN-DIAGRAMM
+        ================================================================
+    */
+
+    drawPdfPanel(
+        pdf,
+        margin,
+        48,
+        contentWidth,
+        104,
+        'Stoßzeiten & Bestellverlauf'
+    );
+
+    addPdfChartImage(
+        pdf,
+        'zeitChart',
+        margin + 6,
+        62,
+        contentWidth - 12,
+        77
+    );
+
+    /*
+        Hilfsfunktionen für die neue Stoßzeiten-Datenstruktur
+    */
+
+    const getZeitAnzahl = row =>
+        Object.values(row.stationen || {}).reduce(
+            (sum, daten) =>
+                sum + (Number(daten.anzahl) || 0),
+            0
+        );
+
+    const getZeitUmsatz = row =>
+        Object.values(row.stationen || {}).reduce(
+            (sum, daten) =>
+                sum + (Number(daten.umsatz) || 0),
+            0
+        );
+
+    const times = stats.stosszeiten || [];
+
+    const peak = times.length
+        ? times.reduce(
+            (best, row) =>
+                getZeitAnzahl(row) > getZeitAnzahl(best)
+                    ? row
+                    : best,
+            times[0]
+        )
+        : null;
+
+    /*
+        ACHTUNG:
+        Die Bestellungen werden aus dem Kellner-Blatt summiert.
+        Der Helfer-Kellner wird dabei ausgeschlossen.
+    */
+
+    const bestellungen = stats.kellnerRows
+        .filter(row => !isInternalAccount(row.name))
+        .reduce(
+            (sum, row) =>
+                sum + (Number(row.bestellungen) || 0),
+            0
+        );
+
+    const totalTimeRevenue = times.reduce(
+        (sum, row) => sum + getZeitUmsatz(row),
+        0
+    );
+
+    const average = times.length
+        ? totalTimeRevenue / times.length
+        : 0;
+
+    /*
+        ================================================================
+        DREI ZEIT-KENNZAHLEN
+        ================================================================
+    */
+
+    const metricY = 158;
+    const metricGap = 5;
+    const metricWidth =
+        (contentWidth - metricGap * 2) / 3;
+
+    drawPdfSmallMetricCard(
+        pdf,
+        margin,
+        metricY,
+        metricWidth,
+        23,
+        'STÄRKSTES ZEITFENSTER',
+        peak ? formatZeitfenster(peak.label) : '-',
+        peak
+            ? `${fmtNumber(getZeitAnzahl(peak))} Artikel · ${fmtEUR(getZeitUmsatz(peak))}`
+            : 'Keine Daten'
+    );
+
+    drawPdfSmallMetricCard(
+        pdf,
+        margin + metricWidth + metricGap,
+        metricY,
+        metricWidth,
+        23,
+        'DURCHSCHNITT / 30 MIN.',
+        fmtEUR(average),
+        `${fmtNumber(times.length)} Zeitfenster`
+    );
+
+    drawPdfSmallMetricCard(
+        pdf,
+        margin + (metricWidth + metricGap) * 2,
+        metricY,
+        metricWidth,
+        23,
+        'BESTELLUNGEN',
+        fmtNumber(bestellungen),
+        'ohne Helfer-Kellner'
+    );
+    
+const days = stats.tagesvergleich || [];
+
+if (days.length > 1) {
+
+    const allStations = [
+        ...new Set(
+            days.flatMap(day =>
+                Object.keys(day.stationen || {})
+            )
+        )
+    ].sort((a, b) => a.localeCompare(b, 'de'));
+
+    const tableHead = [
+        'Tag',
+        'Datum',
+        'Umsatz',
+        'Artikel',
+        ...allStations
+    ];
+
+    const tableBody = days.map(day => [
+
+        day.datum.toLocaleDateString(
+            'de-DE',
+            { weekday: 'long' }
+        ),
+
+        day.datum.toLocaleDateString(
+            'de-DE'
+        ),
+
+        fmtEUR(day.umsatz),
+
+        fmtNumber(day.artikel),
+
+        ...allStations.map(station =>
+            fmtNumber(
+                day.stationen?.[station] || 0
+            )
+        )
+    ]);
+
+    addPdfTableSection(
+        pdf,
+        'Tagesvergleich',
+        tableHead,
+        tableBody,
+        {},
+        190,
+        false
+    );
+}
 }
 
 function drawPdfSmallMetricCard(pdf, x, y, width, height, label, value, note) {
@@ -2515,59 +2868,85 @@ function addPdfFooters(pdf, stats, pageWidth, pageHeight) {
     }
 }
 
-function addPdfTableSection(pdf, title, head, body, columnStyles = {}, startY = null, newPage = false) {
+function addPdfTableSection(
+    pdf,
+    title,
+    head,
+    body,
+    columnStyles = {},
+    startY = null,
+    newPage = false
+) {
     const margin = 14;
 
-    if (newPage) pdf.addPage();
+    if (newPage) {
+        pdf.addPage();
+    }
 
     pdf.setFont('helvetica', 'bold');
     pdf.setFontSize(12);
     pdf.setTextColor(26, 26, 26);
-    const y = startY !== null ? startY : margin + 8;
+
+    const y =
+        startY !== null
+            ? startY
+            : margin + 8;
+
     pdf.text(title, margin, y);
 
     pdf.autoTable({
         startY: y + 6,
+
         head: [head],
         body,
+
         theme: 'plain',
+
         styles: {
             fontSize: 7.2,
             cellPadding: 2.2,
             overflow: 'linebreak',
+
             fillColor: [255, 255, 255],
             textColor: [51, 51, 51],
+
             lineColor: [221, 221, 221],
             lineWidth: 0.2,
+
             font: 'helvetica',
             fontStyle: 'normal'
         },
+
         headStyles: {
             fillColor: [247, 247, 247],
             textColor: [105, 105, 105],
             fontStyle: 'bold',
             lineColor: [211, 211, 211],
-            lineWidth: 0.3,
-            halign: 'left',
-            valign: 'middle'
+            lineWidth: 0.3
         },
+
         bodyStyles: {
             fillColor: [255, 255, 255],
             textColor: [34, 34, 34],
             lineColor: [236, 236, 236],
             lineWidth: 0.2
         },
+
         alternateRowStyles: {
             fillColor: [250, 250, 250]
         },
+
         margin: {
+            top: 18,
             left: margin,
-            right: margin
+            right: margin,
+            bottom: 18
         },
+
         columnStyles
     });
 
-    return pdf.lastAutoTable.finalY + 10;
+    return pdf.lastAutoTable.finalY;
 }
 
 function addPdfTablePage(pdf, title, head, body, columnStyles = {}) {
@@ -2649,13 +3028,16 @@ function normalizeName(value) {
 }
 
 function escapeHTML(value) {
-    return String(value ?? '').replace(/[&<>'"]/g, char => ({
-        '&': '&amp;',
-        '<': '&lt;',
-        '>': '&gt;',
-        "'": '&#39;',
-        '"': '&quot;'
-    }[char]));
+    return String(value ?? '').replace(
+        /[&<>'"]/g,
+        char => ({
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            "'": '&#39;',
+            '"': '&quot;'
+        }[char])
+    );
 }
 
 function sum(rows, selector) {
@@ -2685,9 +3067,13 @@ function stationRank(station) {
     return 0;
 }
 
-function isZusatzRow(name, total) {
+function isZusatzRow(name) {
     const value = normalizeName(name);
-    return value.startsWith('zusaetze -') || total === 0;
+
+    return (
+        value.startsWith('zusaetze -') ||
+        value.startsWith('zusatz -')
+    );
 }
 
 function isSummaryText(value) {
@@ -2747,4 +3133,5 @@ function parseGermanDate(value) {
 }
 </script>
 
-</body></html>
+</body>
+</html>
