@@ -1,0 +1,11 @@
+{
+  "name": "Orderman Fochina",
+  "short_name": "Orderman",
+  "start_url": "/OrdermanFochina/",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#0f172a",
+  "icons": [
+   
+  ]
+}
